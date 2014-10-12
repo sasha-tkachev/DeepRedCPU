@@ -1,4 +1,4 @@
-from cpu_common import *
+'''from cpu_common import *
 from cpu_component import *
 from cpu_ref import *
 class ADDER(Component):
@@ -130,4 +130,4 @@ DeShifter=SHIFTER(
 		Pear("1 11 12",8),
 		Pear("14 11 12",8),
 		True
-		)
+		)'''

@@ -1,5 +1,5 @@
-from cpu_common import *
-from cpu_component import *
+'''from cpu_common import *
+
 from cpu_ref import *
 class RAM_READ(Component):
 	def __init__(self,peara,pearb,iAdress,oResult,pivot):
@@ -28,4 +28,4 @@ Ram.Write=RAM_WRITE(
 	Pear("28 11 20",8),
 	Pear("1 11 2",8),
 	CartPivot("RAM_WRITE_PIVOT",Point("28 11 25"))
-	)
+	)'''

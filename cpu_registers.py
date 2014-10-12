@@ -1,4 +1,4 @@
-from cpu_component import Component
+
 from cpu_ref import pRefrence
 from cpu_common import pPool, Point, Pear
 

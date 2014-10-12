@@ -1,5 +1,5 @@
 from cpu_common import *
-from cpu_component import *
+
 from cpu_ref import *
 def CopyToCart(cartname, content):
 	return "/execute @e[name="+cartname+"] ~ ~ ~ /clone "+content+" ~ ~ ~"

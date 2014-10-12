@@ -1,5 +1,5 @@
-from cpu_common import *
-from cpu_component import *
+'''from cpu_common import *
+
 from cpu_ref import *
 class XORER(Component2):
 	def __init__(self,peara,pearb,iNumberA,iNumberB,oResult,_pora,_prob,_proc,banka,bankb,_test,_testRecall):
@@ -44,4 +44,4 @@ Xorer=XORER(
 	Area("44 17 19","44 19 19"),Area("43 17 19","43 19 19"),#banks
 	Pear("37 18 23"),#_test
 	Pear("38 14 3"),#testrecall
-	)
+	)'''

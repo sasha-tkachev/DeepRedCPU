@@ -1,5 +1,5 @@
 '''
-from cpu_component import Component
+
 from cpu_common import *
 
 Screen_chars=list()

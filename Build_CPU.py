@@ -7,7 +7,6 @@ from pymclevel 			import TAG_Short
 from pymclevel 			import TAG_Double
 from pymclevel 			import TAG_String
 from cpu_common 		import *
-from cpu_component 		import *
 #from cpu_cmp_logic		import Inverter, Orer, Xorer
 #from cpu_cmp_calc		import 
 #from cpu_cmp_calc		import Increaser

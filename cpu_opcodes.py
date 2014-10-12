@@ -1,13 +1,14 @@
-from cpu_component import *
+
 from cpu_common import *
 class Opcode(Component):
 	def __init__(self,*args):
-		invokeEnter=portPool.alloc()
+		self.subStart=args[0]
+		invokeEnter=portPool.alloc(self.subStart)
 		Component.__init__(self,invokeEnter)
 		self.frames=args
-		self.subStart=args[0]
+		
 		self.subReturn=Pear(Point(invokeEnter.x+1,invokeEnter.y,invokeEnter.z))
-		self.end=subReturn2
+		self.end=self.subReturn
 	def ret(self,take='bottom'):
 		take = {
 			'south': '~ ~ ~1' , \

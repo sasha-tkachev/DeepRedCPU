@@ -1,4 +1,3 @@
-from cpu_component import Component
 from cpu_ref import *
 def Clone(peara,pearb):
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
@@ -11,6 +10,10 @@ def Clone(peara,pearb):
 def Fill(peara,content):
 
 	return "/fill {0} {1}".format(peara.getOrigin(),content)
+class Group:
+	pass
+class Unit:
+	pass
 
 class Point:
 	def __init__(self, inp,y=None,z=None):
@@ -58,7 +61,6 @@ class Area:
 		return "/testforblocks {} {}".format(str(self),str(areab.p1))
 	def __str__(self):
 		return "{} {}".format(str(self.p1),str(self.p2))
-
 class Pear:
 	resetBlock="snow"
 	def getOrigin(self):
@@ -120,6 +122,46 @@ class Pear:
 	
 	def __str__(self):
 		return str(self.dest)
+
+class Literal:
+	def Byte(self,n):
+		# n is number
+		n=int(n)
+		start = Point("37 11 26")
+		column=int(n%8)
+		row=int(n/8)
+		selected=Pear(Point(37,start.y+row,start.z+column),8)
+		return selected
+
+	def Char(self,c):
+		if(isinstance(c,chr)):
+			return Byte(ord(c))
+		
+	def OprandByte(self,cdu,n,order):
+		return "/clone " +self.Byte(n).getOrigin()+" "+cdu.getUnpackedPear(order)
+
+class Component:
+	def __init__(self, invokeEnter):
+		if not isinstance(invokeEnter, Pear)
+			raise Exception("invokeEnter must be a pear")
+		#pear with the isze of 1
+		self.invokeEnter=invokeEnter
+	def __call__(self,exit):
+		return "/setblock "+str(self.invokeEnter)+" command_block 0 replace {Command:/setblock "+str(exit)+" redstone_block}"
+class Component1(Component):
+	def __init__(self, invokeEnter,iNumberA,oResult,_proa,_proc):
+		Component.__init__(self,invokeEnter)
+		self.iNumberA=iNumberA
+		self.oResult=oResult
+		self._proa=_proa
+		self._proc=_proc
+		self.iValue=_proa
+class Component2(Component1):
+	def __init__(self, invokeEnteriNumberA,iNumberB,oResult,_proa,_prob,_proc ):
+		Component1.__init__(self, invokeEnter,iNumberA,oResult,_proa,_proc)
+		self.iNumberB=iNumberB
+		self._prob=_prob
+
 class PearPool:
 	def __init__(self,start,maxWidth,maxHight):
 		if isinstance(start,str):
@@ -144,31 +186,37 @@ class PearPool:
 	#mainly for cmd blocks
 	def safeAlloc(self,size=8):
 		raise Exception("unimplamentd")
+class PortPool():
+	JMP_X = 4
+	JMP_Y = 3
+	def __init__(self,start,width,hight):
+		self.slots =   [ [None] * hight ] * width
+		if not isinstance(start,Point):
+			raise Exception("start must be a point")
+		self.start=start
+		self.width=width
+		self.hight=hight
+		self.curX=0
+		self.curY=0
+	def alloc(self, bind):
+		if not isinstance(bind, Pear):
+			raise Exception("bind must be a pear")
 
-class Group:
-	
-	pass
-class Unit:
-
-	pass
-
-class Literal:
-	def Byte(self,n):
-		# n is number
-		n=int(n)
-		start = Point("37 11 26")
-		column=int(n%8)
-		row=int(n/8)
-		selected=Pear(Point(37,start.y+row,start.z+column),8)
-		return selected
-
-	def Char(self,c):
-		if(isinstance(c,chr)):
-			return Byte(ord(c))
+		self.curX+=1
+		if  self.curX >= self.width:
+			self.curX = 0
+			self.curY +=1
+		if  self.curY >= self.hight:
+			raise Exception("ports depleated")
 		
-	def OprandByte(self,cdu,n,order):
-		return "/clone " +self.Byte(n).getOrigin()+" "+cdu.getUnpackedPear(order)
-
-
-pPool = PearPool("0 0 0",50,1)
+		self.slots[self.curX][self.curY] = bind()
+		return Pear(Point(
+			self.start.x + self.curX * PortPool.JMP_X,
+			self.start.y + self.curY * PortPool.JMP_Y,
+			self.start.z)
+		)	
+	def slot(self,i,j):
+		return self.slots[i][j]
+portPool=PortPool(Point(30, 12, 4),4,4)
+pPool = PearPool(Point(28 ,11, 41),2,16)
 Literals=Literal()
