@@ -8,13 +8,13 @@ from pymclevel 			import TAG_Double
 from pymclevel 			import TAG_String
 from cpu_common 		import *
 from cpu_component 		import *
-from cpu_registers 		import *
 from cpu_cmp_logic		import *
 from cpu_cmp_calc		import *
 from cpu_cmp_cdu 		import *
 from cpu_cmp_keyboard	import *
 from cpu_cmp_ram 		import *
 from cpu_ref 			import *
+from cpu_registers 		import *
 
 displayName = "Build CPU"
 

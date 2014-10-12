@@ -1,6 +1,4 @@
-from cpu_common import *
-from cpu_component import *
-from cpu_ref import *
+from cpu_component import Component
 def Clone(peara,pearb):
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
 		return "/clone "+str(peara.getOrigin())+" "+str(pearb);
@@ -12,7 +10,6 @@ def Clone(peara,pearb):
 def Fill(peara,content):
 
 	return "/fill {0} {1}".format(peara.getOrigin(),content)
-
 
 class Point:
 	def __init__(self, inp,y=None,z=None):
@@ -69,12 +66,11 @@ class Pear:
 		else:
 			return str(self.dest)
 	def getEndOfOrigin(self):
-		
 		return str(self.dest.x+self.size-1)+" "+str(self.dest.y)+" "+str(self.dest.z)
 
 	def bit(self, bitID):
 		retpoint = Point( 
-			self.dest.x +bitID,
+			self.dest.x + bitID,
 			self.dest.y,
 			self.dest.z
 			)
@@ -108,16 +104,17 @@ class Pear:
 	def clone(self,pear):
 		return Clone(self,pear)
 	def setTrue(self):
-
 		return self.fill("redstone_block")
 	def setFalse(self):
 		return self.fill(self.resetBlock)
 	def Reset(self):
-		
 		return self.setFalse()	
-	def __call__(self):
+	def __call__(self,indirectTake):
 		if self.size>1:
 			raise Exception("you cannot call a pear that the size of it is bigger then 1")
+		
+		if indirectTake:
+			return "/clone {0} {0} {1} replace move ".format(str(indirectTake),str(self.dest))
 		return self.setTrue()
 	
 	def __str__(self):
@@ -128,12 +125,13 @@ class PearPool:
 			start=Point(start)
 		if not isinstance(start, Point):
 			raise Exception("invalid start point")
+		self.start=start
 		self.maxWidth=maxWidth
 		self.maxHight=maxHight
 		self.curx=0
 		self.cury=0
 	def alloc(self,size=8):
-		if size != 8
+		if size != 8:
 			raise Exception("unimplamentd")
 		self.curx+=1
 		if self.curx > self.maxWidth:
@@ -141,7 +139,7 @@ class PearPool:
 			self.cury+=1
 			if self.cury>self.maxHight:
 				raise Exception("ther is not enoth place for more slots")
-		return Pear(Point(start.x+self.curx,start.x+self.cury,start.z),size)
+		return Pear(Point(self.start.x+self.curx,self.start.x+self.cury,self.start.z),size)
 	#mainly for cmd blocks
 	def safeAlloc(self,size=8):
 		raise Exception("unimplamentd")
@@ -151,7 +149,7 @@ class Group:
 	pass
 class Unit:
 
-	pas
+	pass
 
 class Literal:
 	def Byte(self,n):
@@ -171,4 +169,4 @@ class Literal:
 		return "/clone " +self.Byte(n).getOrigin()+" "+cdu.getUnpackedPear(order)
 
 
-pPool = PearPool("0 0 0",20,1)
+pPool = PearPool("0 0 0",50,1)
