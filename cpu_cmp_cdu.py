@@ -14,3 +14,6 @@ class CDU(Unit):
 		return self.getUnpackedPear(order).getSubPear(size)
 	def arg(self,order,size):
 		return self.getCmdArg(order,size)
+#CDU-command decoding unit
+Cdu=CDU(Pear("1 11 -5",8))
+

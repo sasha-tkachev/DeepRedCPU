@@ -23,3 +23,25 @@ class INVERTER(Component):
 		self._pro=_pro
 	def invertBit(self,n):
 		return self.oResult.bit(n).setFalse()
+
+Inverter=INVERTER(
+		Pear("38 15 19"),
+		Pear("41 14 19"),
+		Pear("1 11 19",8),
+		Pear("1 11 20",8),
+		Pear("37 11 19",8),
+		)
+Orer=ORER(
+	Pear("44 14 19"),Pear("44 14 14"),#invokes
+	Pear("1 11 21",8),Pear("1 11 22",8),Pear("1 11 23",8),#interface
+	Pear("37 15 15",8),Pear("37 14 16",8),Pear("37 15 16",8),#internalMem
+	Pear("37 15 14"),Pear("37 21 18")#internalPointers
+	)
+Xorer=XORER(
+	Pear("43 18 18"),Pear("42 17 18"),#invokes
+	Pear("1 11 24",8),Pear("1 11 25",8),Pear("1 11 26",8),#interfaces
+	Pear("37 17 20",8),Pear("37 19 20",8),Pear("37 18 20",8),#internalSlots
+	Area("44 17 19","44 19 19"),Area("43 17 19","43 19 19"),#banks
+	Pear("37 18 23"),#_test
+	Pear("38 14 3"),#testrecall
+	)

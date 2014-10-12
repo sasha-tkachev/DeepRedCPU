@@ -170,3 +170,4 @@ class Literal:
 
 
 pPool = PearPool("0 0 0",50,1)
+Literals=Literal()

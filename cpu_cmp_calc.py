@@ -78,3 +78,56 @@ class SHIFTER(Component):
 		else:
 			return self.oResult.bit((i-1)%8).setTrue()	
 
+Adder=ADDER(
+		Pear(Point("37 14 9")),#invoke enter
+		Pear(Point("44 14 6")),#invoke exit
+		Pear("1 11 6",8),#inumba
+		Pear("1 11 7",8),#inumberb
+		Pear("1 11 8",8),#oResultt
+		Pear("37 14 12",8),#_proa
+		Pear("37 14 11",8),#_prob
+		Pear("37 14 10",8),#_proc
+		Point("37 12 16"),#carts
+		CartPivot("ADDER_CALLER",Point("37 11 8")),#caller
+		Pear("37 13 7"),#stage2c
+		Pear("37 11 11"),#stage3
+		Pear("37 13 6"),#stage4
+		)
+Increaser=INCREASER(
+		Pear("40 15 23"),
+		Pear("43 14 23"),
+		Pear("1 11 15",8),
+		Pear("1 11 16",8),
+		Pear("37 11 23",8),
+		CartPivot(
+			"INCREASER_PIVOT",
+			Point("37 11 27"),
+			),
+		)
+Decreaser=INCREASER(
+	Pear("40 15 21"),
+	Pear("43 14 21"),
+	Pear("1 11 17",8),
+	Pear("1 11 18",8),
+	Pear("37 11 21",8),
+	CartPivot(
+		"DECREASER_PIVOT",
+		Point("37 11 25")
+		),
+	)
+Shifter=SHIFTER(
+		Pear("16 14 14"),
+		Pear("19 14 14"),
+		Pear("1 11 11",8),
+		Pear("1 11 10",8),
+		Pear("14 11 14",8),
+		False
+		)
+DeShifter=SHIFTER(
+		Pear("16 14 12"),
+		Pear("19 14 12"),
+		Pear("1 11 13",8),
+		Pear("1 11 12",8),
+		Pear("14 11 12",8),
+		True
+		)

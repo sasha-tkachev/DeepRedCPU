@@ -28,3 +28,12 @@ class Keyboard(Unit):
 	def Key(self,c):
 		
 		return Clone(Literals.Char(c),self.tmp)
+
+keyboard=Keyboard(
+	"leaves",
+	["-15 13 -21", "-16 13 -21"],
+	"-17 11 -53",
+	CartPivot( "KEYBOARD_PIVOT", Point("-22 15 -46")),
+	Pear("1 11 -54", 8)
+)
+ 	
