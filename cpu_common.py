@@ -1,4 +1,5 @@
 from cpu_component import Component
+from cpu_ref import *
 def Clone(peara,pearb):
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
 		return "/clone "+str(peara.getOrigin())+" "+str(pearb);
@@ -109,7 +110,7 @@ class Pear:
 		return self.fill(self.resetBlock)
 	def Reset(self):
 		return self.setFalse()	
-	def __call__(self,indirectTake):
+	def __call__(self,indirectTake=None):
 		if self.size>1:
 			raise Exception("you cannot call a pear that the size of it is bigger then 1")
 		

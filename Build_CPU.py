@@ -9,18 +9,18 @@ from pymclevel 			import TAG_String
 from cpu_common 		import *
 from cpu_component 		import *
 #from cpu_cmp_logic		import Inverter, Orer, Xorer
-from cpu_cmp_calc		import *
+#from cpu_cmp_calc		import 
 #from cpu_cmp_calc		import Increaser
 #from cpu_cmp_calc		import Decreaser
 #from cpu_cmp_calc		import Shifter
 #from cpu_cmp_calc		import DeShifter
-#from cpu_cmp_cdu 		import Cdu
+from cpu_cmp_cdu 		import Cdu
 #from cpu_cmp_keyboard	import keyboard
 #from cpu_cmp_ram 		import Ram
 from cpu_ref 			import *
 from cpu_registers 		import *
 #from cpu_cmp_screen     import Screen, Screen_chars
-
+from cpu_opcodes import *
 displayName = "Build CPU"
 
 def perform(level, box, options):
