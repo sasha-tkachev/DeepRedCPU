@@ -1,1 +1,1 @@
-rm *.pyo
+del *.pyo

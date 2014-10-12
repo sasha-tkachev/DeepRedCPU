@@ -6,7 +6,8 @@ class CartPivot:
 		if not isinstance(spawnPosition,cpu_common.Point):
 			if isinstance(spawnPosition,str):
 				spawnPosition= cpu_common.Point(spawnPosition)
-			raise Exception("spawnPosition must be or a string inform of a point or a point ")
+			else:
+				raise Exception("spawnPosition must be or a string inform of a point or a point ")
 		self.ID=ID
 		self.selector="@e[name={0}]".format(self.ID)
 		self.spawnPosition=spawnPosition
