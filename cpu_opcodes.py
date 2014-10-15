@@ -7,7 +7,6 @@ class Opcode(Component):
 		Component.__init__(self,invokeEnter)
 		self.frames=args
 		
-		self.subReturn=Pear(Point(invokeEnter.x+1,invokeEnter.y,invokeEnter.z))
 		self.end=self.subReturn
 	def ret(self,take='bottom'):
 		take = {
@@ -24,11 +23,15 @@ class Opcode(Component):
 ROWS=[
 	Point(28,12,19),
 	Point(28,12,17),
-	Point(28,12,11)
-]
+	Point(28,12,10),
+	Point(28,12,15),
+	Point(28,12,13),
+	Point(28,12,7),
+	Point(28,17,17),
+	]
 def f(row,index):
 	s = ROWS[row]
-	return Pear(Point(s.x+index,s.y,s.x))
+	return Pear(Point(s.x+index,s.y,s.z))
 
 MovRC =Opcode(
 	f(1,0)
@@ -64,8 +67,56 @@ AddRC =Opcode(
 	f(2,3),
 	f(1,3)
 	)
+AddRR =Opcode(
+	f(2,6),
+	f(1,7)
+	)
 PushR =Opcode(
 	f(2,5),
 	f(0,4),
 	f(1,6)
+	)
+NegR  =Opcode(
+	f(4,0),
+	f(3,1)
+	)
+XorRR =Opcode(
+	f(2,7),
+	f(3,2)
+	)	
+SubRR =Opcode(
+	f(5,0),
+	f(4,1),
+	f(3,3)
+	)
+SubRC =Opcode(
+	f(5,1),
+	f(4,2),
+	f(3,4)
+	)
+JmpA  =Opcode(
+	f(3,5)
+	)
+JmpiA =Opcode(
+	f(3,6)
+	)
+IncR  =Opcode(
+	f(4,3),
+	f(3,7)
+	)
+DecR  =Opcode(
+	f(4,4),
+	f(6,0)
+	)
+ShrR  =Opcode(
+	f(4,5),
+	f(6,1)
+	)
+ShlR  =Opcode(
+	f(4,6),
+	f(6,2)
+	)
+JnzA  =Opcode(
+	Pear("31 13 -5"),
+	Pear("31 12 -5")
 	)

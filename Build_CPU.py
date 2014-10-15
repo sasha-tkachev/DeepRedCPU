@@ -21,7 +21,7 @@ from cpu_registers 		import *
 #from cpu_cmp_screen     import Screen, Screen_chars
 from cpu_opcodes import *
 displayName = "Build CPU"
-
+print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
 def perform(level, box, options):
 	for (chunk, slices, point) in level.getChunkSlices(box):
 		for t in chunk.TileEntities:

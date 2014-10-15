@@ -18,7 +18,8 @@ class _FlagRegister(Pear):
 		self.zero=self.bit(2)
 		self.sign=self.bit(3)
 		self.overflow=self.bit(4)
-
+	def alureset():
+		return "/say resetting "
 flags=_FlagRegister(pPool.alloc())
 ipRegister = pPool.alloc()
 stackRegister = pPool.alloc()

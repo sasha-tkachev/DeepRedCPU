@@ -1,15 +1,27 @@
+from cpu_common import *
+from cpu_opcodes import *
+class NEGATOR(Opcode):
+	def __init__(self,iValue,oResult,a1,a2,a3):
+		Opcode.__init__(self,a1,a2,a3)
+		self.iValue=iValue
+		self.oResult=oResult
+class XORER(Component2):
+	def __init__(self,peara,iNumberA,iNumberB,oResult,_pora,_prob,_proc,bank):
+		Component2.__init__(self,peara,pearb,iNumberA,iNumberB,oResult,_p,ora,_prob,_proc)
+		if not isinstance(bank,Pear):
+			raise Exception("bank must be pear")
+		self.bank = bank
+	def action(self,i):
+		return bank.bit(i).mv(self._proc.bit(i))
+	def inputReset():
+		return "/fill {} {} {}".format(
+			str(self._proa.dest),
+			str(self._prob.getEndOfOrigin()),
+			Pear.resetBlock)
+
 '''from cpu_common import *
 
 from cpu_ref import *
-class XORER(Component2):
-	def __init__(self,peara,pearb,iNumberA,iNumberB,oResult,_pora,_prob,_proc,banka,bankb,_test,_testRecall):
-		Component2.__init__(self,peara,pearb,iNumberA,iNumberB,oResult,_pora,_prob,_proc)
-		self.bankb=bankb
-		self.banka=banka
-		self._test=_test
-		self._testRecall=_testRecall
-	def resetPros(self):
-		return "/fill {} {} {}".format(str(self._proa.dest),str(self._prob.getEndOfOrigin()),Pear.resetBlock)
 class ORER(Component2):
 	def __init__(self, invokeEnter, invokeExitBlock,iNumberA,iNumberB,oResult,_proa,_prob,_proc ,_cont,_end):
 		Component2.__init__(self, invokeEnter, invokeExitBlock,iNumberA,iNumberB,oResult,_proa,_prob,_proc )
@@ -44,4 +56,13 @@ Xorer=XORER(
 	Area("44 17 19","44 19 19"),Area("43 17 19","43 19 19"),#banks
 	Pear("37 18 23"),#_test
 	Pear("38 14 3"),#testrecall
-	)'''
+	)
+'''
+
+Negator = NEGATOR(
+	pPool.alloc(),
+	pPool.alloc(),
+	f(0,6),
+	f(0,7),
+	f(4,0)
+	)

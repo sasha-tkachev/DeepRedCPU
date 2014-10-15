@@ -10,6 +10,8 @@ def Clone(peara,pearb):
 def Fill(peara,content):
 
 	return "/fill {0} {1}".format(peara.getOrigin(),content)
+def msg(string):
+	return "/say {}".format(string)
 class Group:
 	pass
 class Unit:
@@ -112,6 +114,13 @@ class Pear:
 		return self.fill(self.resetBlock)
 	def Reset(self):
 		return self.setFalse()	
+	def mv(self,dest):
+		if not isinstance(dest,Pear):
+			raise Exception("dest must be a pear")
+		if not self.size > dest.size:
+			raise Exception("the pear cannot be bigger then the destenation")
+		return "/clone {} {} replace move".format(str(self.getOrigin),str(dest.dest))
+	
 	def __call__(self,indirectTake=None):
 		if self.size>1:
 			raise Exception("you cannot call a pear that the size of it is bigger then 1")
@@ -142,10 +151,11 @@ class Literal:
 
 class Component:
 	def __init__(self, invokeEnter):
-		if not isinstance(invokeEnter, Pear)
+		if not isinstance(invokeEnter, Pear):
 			raise Exception("invokeEnter must be a pear")
 		#pear with the isze of 1
 		self.invokeEnter=invokeEnter
+		self.subReturn=Pear(Point(invokeEnter.dest.x+1,invokeEnter.dest.y,invokeEnter.dest.z))
 	def __call__(self,exit):
 		return "/setblock "+str(self.invokeEnter)+" command_block 0 replace {Command:/setblock "+str(exit)+" redstone_block}"
 class Component1(Component):
@@ -173,6 +183,7 @@ class PearPool:
 		self.maxHight=maxHight
 		self.curx=0
 		self.cury=0
+		self.slotCount=0
 	def alloc(self,size=8):
 		if size != 8:
 			raise Exception("unimplamentd")
@@ -182,23 +193,29 @@ class PearPool:
 			self.cury+=1
 			if self.cury>self.maxHight:
 				raise Exception("ther is not enoth place for more slots")
+		self.slotCount+=1
 		return Pear(Point(self.start.x+self.curx,self.start.x+self.cury,self.start.z),size)
 	#mainly for cmd blocks
 	def safeAlloc(self,size=8):
 		raise Exception("unimplamentd")
 class PortPool():
+
 	JMP_X = 4
 	JMP_Y = 3
-	def __init__(self,start,width,hight):
-		self.slots =   [ [None] * hight ] * width
+	JMP_Z= -3
+	def __init__(self,start,width,hight,length):
+		self.slots =  [ [ [_Slot(Pear("0 0 0"),"this port is not allocated")] * length]* hight ] * width 
 		if not isinstance(start,Point):
 			raise Exception("start must be a point")
 		self.start=start
 		self.width=width
 		self.hight=hight
+		self.length=length
 		self.curX=0
 		self.curY=0
-	def alloc(self, bind):
+		self.curZ=0
+		self.slotCount=0
+	def alloc(self, bind,debugMsg=None):
 		if not isinstance(bind, Pear):
 			raise Exception("bind must be a pear")
 
@@ -207,16 +224,27 @@ class PortPool():
 			self.curX = 0
 			self.curY +=1
 		if  self.curY >= self.hight:
-			raise Exception("ports depleated")
+			self.curY=0
+			self.curZ+=1
+		if self.curZ >= self.length:
+			raise Exception("ports depleated. we have {} ports allready".format(self.slotCount))
 		
-		self.slots[self.curX][self.curY] = bind()
+		
+		if debugMsg==None:
+			debugMsg="[port ({},{},{})] was invoked".format(self.curX,self.curY,self.curZ)
+		self.slots[self.curX][self.curY][self.curZ] = _Slot(bind(),debugMsg)
+		self.slotCount+=1
 		return Pear(Point(
 			self.start.x + self.curX * PortPool.JMP_X,
 			self.start.y + self.curY * PortPool.JMP_Y,
-			self.start.z)
+			self.start.z + self.curZ * PortPool.JMP_Z)
 		)	
-	def slot(self,i,j):
-		return self.slots[i][j]
-portPool=PortPool(Point(30, 12, 4),4,4)
+	def slot(self,i,j,k):
+		return self.slots[i][j][k]
+class _Slot:
+	def __init__(self,bind,debugMsg):
+		self.bind=bind
+		self.debugMsg="/say "debugMsg
+portPool=PortPool(Point(30, 12, 4),4,5,3)
 pPool = PearPool(Point(28 ,11, 41),2,16)
 Literals=Literal()

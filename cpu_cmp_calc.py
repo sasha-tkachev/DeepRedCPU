@@ -1,3 +1,16 @@
+from cpu_common import *
+class INCREASER(Component):
+	def __init__(self,enter,iValue,oResult,_pro,resRef):
+		Component.__init__(self,portPool.alloc(enter));
+		self.iValue=iValue
+		self.oResult=oResult
+		self._pro=_pro
+		self.resRef=resRef
+	def action(self,index):
+		if index < 4 :
+			return self.resRef.movZ(2**index)
+		index-=4
+		return self.resRef.movY(2**index)
 '''from cpu_common import *
 from cpu_component import *
 from cpu_ref import *
@@ -58,13 +71,6 @@ class ADDER(Component):
 		)
 		l[i]=(toAppend)
 		return self.createSummers(l,i-1,toAppend)
-class INCREASER(Component):
-	def __init__(self,pa,pb,inp,out,_pro,pivot):
-		Component.__init__(self,pa,pb);
-		self.iValue=inp
-		self.oResult=out
-		self._pro=_pro
-		self.pivot=pivot
 class SHIFTER(Component):
 	def __init__(self,peara,pearb,result,value,_bitpro,isReversed=False):
 		Component.__init__(self,peara,pearb)
