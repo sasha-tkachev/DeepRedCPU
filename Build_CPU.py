@@ -7,22 +7,18 @@ from pymclevel 			import TAG_Short
 from pymclevel 			import TAG_Double
 from pymclevel 			import TAG_String
 from cpu_common 		import *
-#from cpu_cmp_logic		import Inverter, Orer, Xorer
-#from cpu_cmp_calc		import 
-#from cpu_cmp_calc		import Increaser
-#from cpu_cmp_calc		import Decreaser
-#from cpu_cmp_calc		import Shifter
-#from cpu_cmp_calc		import DeShifter
+from cpu_cmp_logic		import *
+from cpu_cmp_calc		import *
+from cpu_cmp_ram 		import Ram
 from cpu_cmp_cdu 		import Cdu
-#from cpu_cmp_keyboard	import keyboard
-#from cpu_cmp_ram 		import Ram
 from cpu_ref 			import *
 from cpu_registers 		import *
-#from cpu_cmp_screen     import Screen, Screen_chars
-from cpu_opcodes import *
+import cpu_opcodes
+
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
 def perform(level, box, options):
+	locals().update(cpu_opcodes.opcodes)
 	for (chunk, slices, point) in level.getChunkSlices(box):
 		for t in chunk.TileEntities:
 			_x = t["x"].value
@@ -33,7 +29,7 @@ def perform(level, box, options):
 				command = t["Command"].value
 				command=command.replace("/say `","`")
 				
-				print("[parsing] "+command)
+				#print("[parsing] "+command)
 				
 				i = 0
 				till=len(command)
@@ -53,7 +49,10 @@ def perform(level, box, options):
 					else:
 						if char==alert:
 							flag=True
-							result+=str(eval(toeval))
+							print ("[parsing] "+toeval)
+							a=str(eval(toeval))
+							result+=a
+							print("    >"+a)
 							toeval=""
 						else:
 							toeval+=char

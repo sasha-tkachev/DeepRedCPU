@@ -1,4 +1,5 @@
 from cpu_common import *
+from cpu_ref import *
 class INCREASER(Component):
 	def __init__(self,enter,iValue,oResult,_pro,resRef):
 		Component.__init__(self,portPool.alloc(enter));
@@ -11,9 +12,7 @@ class INCREASER(Component):
 			return self.resRef.movZ(2**index)
 		index-=4
 		return self.resRef.movY(2**index)
-'''from cpu_common import *
-from cpu_component import *
-from cpu_ref import *
+
 class ADDER(Component):
 	class Summer:
 		def __init__(self,pivot,cOut,proPear):
@@ -37,8 +36,8 @@ class ADDER(Component):
 			return self.pivot.signal()
 		def __str__(self):
 			return "cart:{} cOut:{} pear:{}".format(self.pivot.ID,self.cOut,self.proPear)
-	def __init__(self,peara,pearb,iNumberA,iNumberB,oResult,_proa,_prob,_proc,sStart,caller,stage2,stage3,stage4):
-		Component.__init__(self,peara,pearb)
+	def __init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc,sStart,caller,stage2,stage3,stage4):
+		Component.__init__(self,peara)
 		self.iNumberB=iNumberB
 		self.iNumberA=iNumberA
 		self.oResult=oResult
@@ -72,12 +71,12 @@ class ADDER(Component):
 		l[i]=(toAppend)
 		return self.createSummers(l,i-1,toAppend)
 class SHIFTER(Component):
-	def __init__(self,peara,pearb,result,value,_bitpro,isReversed=False):
-		Component.__init__(self,peara,pearb)
+	def __init__(self,peara,result,value,_pro,isRight=False):
+		Component.__init__(self,peara)
 		self.oResult=result
 		self.iValue=value
-		self._bitpro=_bitpro
-		self._reversed=isReversed
+		self._pro=_pro
+		self._reversed=isRight
 	def shiftBit(self,i):
 		if self._reversed:
 			return self.oResult.bit((i+1)%8).setTrue()
@@ -86,9 +85,8 @@ class SHIFTER(Component):
 
 Adder=ADDER(
 		Pear(Point("37 14 9")),#invoke enter
-		Pear(Point("44 14 6")),#invoke exit
-		Pear("1 11 6",8),#inumba
-		Pear("1 11 7",8),#inumberb
+		pPool.alloc(),#inumba
+		pPool.alloc(),#inumberb
 		Pear("1 11 8",8),#oResultt
 		Pear("37 14 12",8),#_proa
 		Pear("37 14 11",8),#_prob
@@ -100,40 +98,36 @@ Adder=ADDER(
 		Pear("37 13 6"),#stage4
 		)
 Increaser=INCREASER(
-		Pear("40 15 23"),
-		Pear("43 14 23"),
-		Pear("1 11 15",8),
-		Pear("1 11 16",8),
+		Pear("37 14 23"),
+		pPool.alloc(),
+		pPool.alloc(),
 		Pear("37 11 23",8),
-		CartPivot(
+		pRefrence(
 			"INCREASER_PIVOT",
 			Point("37 11 27"),
 			),
 		)
 Decreaser=INCREASER(
-	Pear("40 15 21"),
-	Pear("43 14 21"),
-	Pear("1 11 17",8),
-	Pear("1 11 18",8),
-	Pear("37 11 21",8),
-	CartPivot(
-		"DECREASER_PIVOT",
-		Point("37 11 25")
-		),
-	)
-Shifter=SHIFTER(
-		Pear("16 14 14"),
-		Pear("19 14 14"),
-		Pear("1 11 11",8),
-		Pear("1 11 10",8),
-		Pear("14 11 14",8),
+		Pear("37 14 22"),
+		pPool.alloc(),
+		pPool.alloc(),
+		Pear("37 11 22",8),
+		pRefrence(
+			"DECREASER_PIVOT",
+			Point("37 11 25")
+			),
+		)
+ShifterLeft=SHIFTER(
+		Pear("37 15 20"),
+		pPool.alloc(),
+		pPool.alloc(),
+		Pear("37 14 18",8),
 		False
 		)
-DeShifter=SHIFTER(
-		Pear("16 14 12"),
-		Pear("19 14 12"),
-		Pear("1 11 13",8),
-		Pear("1 11 12",8),
-		Pear("14 11 12",8),
+ShifterRight=SHIFTER(
+		Pear("37 15 19"),
+		pPool.alloc(),
+		pPool.alloc(),
+		Pear("37 11 18",8),
 		True
-		)'''
+		)
