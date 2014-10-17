@@ -24,6 +24,9 @@ class Opcode(Component):
 data =json.loads(open("E:/Games/Minecraft/mcedit/MCEdit-0.1.7.1.win-amd64/filters/data/opcodes.json","r").read())
 rows=data["rows"]
 opcodes=data["opcodes"]
+#list made for outer use 
+codes=list()
+
 for codeName,frames in opcodes.items():
 	pList=[]
 	print(codeName+" = ")
@@ -46,6 +49,8 @@ for codeName,frames in opcodes.items():
 			raise Exception("invalid frame syntax")
 		print('  '+str(retPear))
 		pList.append(retPear)
-	opcodes[codeName]=Opcode(pList)
+	op=Opcode(pList)
+	opcodes[codeName]=op
+	codes.append((codeName,op))
 def f(row,i):
 	return Pear(Point(rows[row][0]+i,rows[row][1],rows[row][2]))

@@ -8,11 +8,12 @@ class NEGATOR(Opcode):
 		self.iValue=iValue
 		self.oResult=oResult
 class XORER(Component2):
-	def __init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc,bank):
+	def __init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc,bank,resultSub):
 		Component2.__init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc)
 		if not isinstance(bank,Pear):
 			raise Exception("bank must be pear")
 		self.bank = bank
+		self.resultSub=resultSub
 	def action(self,i): 
 		p1=self.bank.bit(i)
 		print("the size of p1 is "+str(p1.size))
@@ -29,14 +30,16 @@ class XORER(Component2):
 			str(self.bank.dest),
 			str(self._proc.getEndOfOrigin()),
 			Pear.resetBlock)
+	def fillAir(self):
+		return "/fill {} {} {} 0 keep".format(str(self._proc.dest),str(self._proc.getEndOfOrigin()),Pear.resetBlock)
 class ORER(Component2):
 	def __init__(self, invokeEnter,iNumberA,iNumberB,oResult,_proa,_prob,_proc ,_cont,_end):
 		Component2.__init__(self,invokeEnter,iNumberA,iNumberB,oResult,_proa,_prob,_proc )
 		self._end=_end
 		self._cont=_cont
-class INVERTER(Component):
+class INVERTER(LinkedComponent):
 	def __init__(self,pa,inp,outp,_pro):
-		Component.__init__(self,pa);
+		LinkedComponent.__init__(self,pa);
 		self.iValue=inp
 		self.oResult=outp
 		self._pro=_pro
@@ -59,7 +62,8 @@ Xorer=XORER(
 	Pear("37 15 21"),#enter
 	pPool.alloc(),pPool.alloc(),pPool.alloc(),#interfaces
 	Pear("37 15 22",8),Pear("37 15 23",8),Pear("37 15 24",8),#internalSlots
-	Pear("37 14 24",8)#bank
+	Pear("37 14 24",8),#bank
+	Pear("35 12 13")#result sub
 	)
 
 Negator = NEGATOR(

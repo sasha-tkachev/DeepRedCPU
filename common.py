@@ -91,7 +91,7 @@ class Pear:
 			raise Exception("dest must be a pear")
 		if self.size > dest.size:
 			raise Exception("the pear cannot be bigger then the destenation")
-		return "/clone {} {} replace move".format(str(self.getOrigin),str(dest.dest))
+		return "/clone {} {} {} replace move".format(str(self.dest),str(self.getOrigin()),str(dest.dest))
 	def get(self,dest):
 		return self.clone(dest)
 	def set(self,dest):
@@ -174,9 +174,13 @@ class Component:
 			print("WARNING no callback for call")
 			return toRet +"/say subrutine is done }}"
 		return toRet+"/setblock "+str(exit)+" redstone_block}}"
-class Component1(Component):
-	def __init__(self, invokeEnter,iNumberA,oResult,_proa,_proc):
+class LinkedComponent(Component):
+	def __init__(self,invokeEnter):
+		invokeEnter=portPool.alloc(invokeEnter)
 		Component.__init__(self,invokeEnter)
+class Component1(LinkedComponent):
+	def __init__(self, invokeEnter,iNumberA,oResult,_proa,_proc):
+		LinkedComponent.__init__(self,invokeEnter)
 		self.iNumberA=iNumberA
 		self.oResult=oResult
 		self._proa=_proa

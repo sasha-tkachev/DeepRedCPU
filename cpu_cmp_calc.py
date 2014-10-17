@@ -1,8 +1,8 @@
 from common import *
 from cpu_ref import *
-class INCREASER(Component):
+class INCREASER(LinkedComponent):
 	def __init__(self,enter,iValue,oResult,_pro,resRef):
-		Component.__init__(self,portPool.alloc(enter));
+		LinkedComponent.__init__(self,portPool.alloc(enter));
 		self.iValue=iValue
 		self.oResult=oResult
 		self._pro=_pro
@@ -13,7 +13,7 @@ class INCREASER(Component):
 		index-=4
 		return self.resRef.moveY(2**index)
 
-class ADDER(Component):
+class ADDER(LinkedComponent):
 	class Summer:
 		def __init__(self,pivot,cOut,proPear):
 			self.pivot=pivot
@@ -37,7 +37,7 @@ class ADDER(Component):
 		def __str__(self):
 			return "cart:{} cOut:{} pear:{}".format(self.pivot.ID,self.cOut,self.proPear)
 	def __init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc,sStart,caller,stage2,stage3,stage4):
-		Component.__init__(self,peara)
+		LinkedComponent.__init__(self,peara)
 		self.iNumberB=iNumberB
 		self.iNumberA=iNumberA
 		self.oResult=oResult
@@ -70,9 +70,9 @@ class ADDER(Component):
 		)
 		l[i]=(toAppend)
 		return self.createSummers(l,i-1,toAppend)
-class SHIFTER(Component):
+class SHIFTER(LinkedComponent):
 	def __init__(self,peara,result,value,_pro,isRight=False):
-		Component.__init__(self,peara)
+		LinkedComponent.__init__(self,peara)
 		self.oResult=result
 		self.iValue=value
 		self._pro=_pro
