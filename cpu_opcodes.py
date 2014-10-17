@@ -1,5 +1,4 @@
-from cpu_common import *
-from cpu_main import root
+from common import *
 import json
 class Opcode(Component):
 	def __init__(self,args):
@@ -22,11 +21,12 @@ class Opcode(Component):
 	def __getitem__(self,index):
 		return self.frames[index]
 
-data =json.loads(open(root.data+"opcodes.json").read())[1]
-rows=data.rows
-opcodes=data.opcodes
-for codeName , frames in opcodes.iteritems():
+data =json.loads(open("E:/Games/Minecraft/mcedit/MCEdit-0.1.7.1.win-amd64/filters/data/opcodes.json","r").read())
+rows=data["rows"]
+opcodes=data["opcodes"]
+for codeName,frames in opcodes.items():
 	pList=[]
+	print(codeName+" = ")
 	for frame in frames:
 		retPear=None
 		if isinstance(frame,list):
@@ -41,9 +41,11 @@ for codeName , frames in opcodes.iteritems():
 				d=frame["Pear"]["dest"]
 				retPear=Pear(Point(d[0],d[1],d[2]),frame["Pear"]["size"])
 			except KeyError:
-				raise Exception("invalid frame syntax")
+				raise Exception("invalid frame syntax expecting ")
 		else:
 			raise Exception("invalid frame syntax")
+		print('  '+str(retPear))
 		pList.append(retPear)
 	opcodes[codeName]=Opcode(pList)
- 
+def f(row,i):
+	return Pear(Point(rows[row][0]+i,rows[row][1],rows[row][2]))

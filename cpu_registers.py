@@ -1,6 +1,6 @@
 
 from cpu_ref import pRefrence
-from cpu_common import pPool, Point, Pear
+from common import pPool, Point, Pear
 
 
 class _FlagRegister():

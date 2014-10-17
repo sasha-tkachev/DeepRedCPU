@@ -1,4 +1,4 @@
-from cpu_common import *
+from common import *
 
 from cpu_ref import *
 #old system

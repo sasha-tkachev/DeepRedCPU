@@ -9,7 +9,6 @@ def Clone(peara,pearb):
 		return peara.set(pearb)
 	raise Exception("the 2 arguments must be pears with a same size")
 def Fill(peara,content):
-
 	return "/fill {0} {1}".format(peara.getOrigin(),content)
 def msg(string):
 	return "/say {}".format(string)
@@ -32,26 +31,26 @@ class Point:
 					cords.append(int(float(tmp)))
 					tmp=""
 				else:
-				 	tmp=tmp+c
-			 	i+=1
-		 	cords.append(int(float(tmp)))
-		 	self.x=cords[0]
-		 	self.y=cords[1]
-		 	self.z=cords[2]
-	 	if isinstance(inp, int):
-	 		self.x=inp
-	 		self.y=y
-	 		self.z=z
+					tmp=tmp+c
+				i+=1
+			cords.append(int(float(tmp)))
+			self.x=cords[0]
+			self.y=cords[1]
+			self.z=cords[2]
+		if isinstance(inp, int):
+			self.x=inp
+			self.y=y
+			self.z=z
 	def rel(self,point):
 		return Point(
 			self.x+point.x,
 			self.y+point.y,
 			self.z+point.z
 			)
- 	def __str__(self):
- 		return str(self.x)+" "+str(self.y)+" "+str(self.z)
-class Area:
+	def __str__(self):
+		return str(self.x)+" "+str(self.y)+" "+str(self.z)
 
+class Area:
 	def __init__(self,p1,p2):
 		'''if isinstance(p1,str):
 			p1=Point(p1)
@@ -65,16 +64,15 @@ class Area:
 		return "/testforblocks {} {}".format(str(self),str(areab.p1))
 	def __str__(self):
 		return "{} {}".format(str(self.p1),str(self.p2))
+
 class Pear:
 	resetBlock="snow"
-	
 	def __init__(self, dest, size=1):
 		if isinstance(dest,str):
 			dest=Point(dest)
 		if size>0:
 			self.dest=dest
 			self.size=size
-	
 	def fill(self,blocks):
 		cmd="fill"
 		if self.size == 1:
@@ -91,7 +89,7 @@ class Pear:
 	def mv(self,dest):
 		if not isinstance(dest,Pear):
 			raise Exception("dest must be a pear")
-		if not self.size > dest.size:
+		if self.size > dest.size:
 			raise Exception("the pear cannot be bigger then the destenation")
 		return "/clone {} {} replace move".format(str(self.getOrigin),str(dest.dest))
 	def get(self,dest):
@@ -102,21 +100,20 @@ class Pear:
 		#check if dest is actually a literal
 		else:
 			return Literal(dest).clone(self)
-			def getOrigin(self):
+	def getOrigin(self):
 		if self.size>1:
 			return str(self.dest)+" "+str(self.dest.x+self.size-1)+" "+str(self.dest.y)+" "+str(self.dest.z)
 		else:
 			return str(self.dest)
 	def getEndOfOrigin(self):
 		return str(self.dest.x+self.size-1)+" "+str(self.dest.y)+" "+str(self.dest.z)
-
 	def bit(self, bitID):
 		retpoint = Point( 
 			self.dest.x + bitID,
 			self.dest.y,
 			self.dest.z
 			)
-		return Pear(retpoint)	
+		return Pear(retpoint,1)	
 	def getSubPear(self,rangeStart,rangeEnd=None):
 		if rangeEnd==None:
 			rangeEnd=rangeStart
@@ -130,7 +127,6 @@ class Pear:
 			self.dest.z
 			)
 		return Pear(retpoint, rangeSize)
-	
 	def __call__(self,indirectTake=None):
 		if self.size>1:
 			raise Exception("you cannot call a pear that the size of it is bigger then 1")
@@ -150,13 +146,13 @@ class Literals:
 		row=int(n/8)
 		selected=Pear(Point(37,start.y+row,start.z+column),8)
 		return selected
-
 	def char(self,c):
 		if(isinstance(c,chr)):
 			return Byte(ord(c))
 		else :
 			raise Exception(" c have to be a char")
-	
+	def OprandByte(self,cdu,n,order):
+		return "/clone " +self.Byte(n).getOrigin()+" "+cdu.getUnpackedPear(order)
 	def __call__(self,v):
 		if isinstance(v,int):
 			return self.byte(v)
@@ -164,9 +160,6 @@ class Literals:
 			return self.char(v)
 		else:
 			raise Exception("v is invalid literal")
-
-	def OprandByte(self,cdu,n,order):
-		return "/clone " +self.Byte(n).getOrigin()+" "+cdu.getUnpackedPear(order)
 
 class Component:
 	def __init__(self, invokeEnter):
@@ -179,7 +172,7 @@ class Component:
 		toRet="/setblock "+str(self.invokeEnter)+" command_block 0 replace {Command:/setblock ~ ~-1 ~-1 command_block 0 replace {Command:"
 		if exit ==None:
 			print("WARNING no callback for call")
-			return toRet +"/say subrutine is done, no follow-up}}"
+			return toRet +"/say subrutine is done }}"
 		return toRet+"/setblock "+str(exit)+" redstone_block}}"
 class Component1(Component):
 	def __init__(self, invokeEnter,iNumberA,oResult,_proa,_proc):
@@ -211,16 +204,15 @@ class PearPool:
 	def alloc(self,size=8):
 		if size != 8:
 			raise Exception("unimplamentd")
-		self.curz+=1
+		self.cury+=1
 		toRet=Pear(Point(self.start.x,self.start.y+self.cury,self.start.z+self.curz),size)
-		if self.curz >= self.width:
-			self.curz=0
-			self.cury+=1
-			if self.cury>=self.hight:
+		if self.cury >= self.hight:
+			self.cury=0
+			self.curz+=1
+			if self.curz>=self.width:
 				raise Exception("ther is not enoth place for more slots")
 		self.slotCount+=1
 		return toRet
-	#mainly for cmd blocks
 	def safeAlloc(self,size=8):
 		print("WARNING! SAFE ALLOC IS JUST LIKE ALLOC")
 		return self.alloc(size)
@@ -228,12 +220,12 @@ class PearPool:
 		print("WARNING TMP ALLOC USED")
 		return self.tmp
 class PortPool():
-
+	indexForm ="{},{},{}"
 	JMP_X = 3
 	JMP_Y = 4
-	JMP_Z= -4
+	JMP_Z = -4
 	def __init__(self,start,width,hight,length):
-		self.slots =  []
+		self.slots =  dict()
 		if not isinstance(start,Point):
 			raise Exception("start must be a point")
 		self.start=start
@@ -249,7 +241,13 @@ class PortPool():
 		if not isinstance(bind, Pear):
 			raise Exception("bind must be a pear")
 		
-		self.slots.append(bind)
+		self.slots[PortPool.indexForm.format(self.curX,self.curY,self.curZ)]=bind
+		toRet=Pear(Point(
+			self.start.x + self.curX * PortPool.JMP_X,
+			self.start.y + self.curY * PortPool.JMP_Y,
+			self.start.z + self.curZ * PortPool.JMP_Z)
+		)
+		self.slotCount+=1
 		self.curX+=1
 		if  self.curX >= self.width:
 			self.curX = 0
@@ -259,21 +257,14 @@ class PortPool():
 			self.curZ+=1
 		if self.curZ >= self.length:
 			raise Exception("ports depleated. we have {} ports allready".format(self.slotCount))
-		self.slotCount+=1
-		return Pear(Point(
-			self.start.x + self.curX * PortPool.JMP_X,
-			self.start.y + self.curY * PortPool.JMP_Y,
-			self.start.z + self.curZ * PortPool.JMP_Z)
-		)
-	def count(self,x,y,z):
-		return x+ y*self.width + z*self.hight
+		
+		return toRet
 	def slot(self,i,j,k):
 		try:
-			print("for {} {} {} the slot is",i,j,k,self.count(i,j,k) )
-			return self.slots[self.count(i,j,k)]()
-		except IndexError:
+			return self.slots[PortPool.indexForm.format(i,j,k)]()
+		except KeyError:
 			return "/say unallocated port"
 	
 portPool=PortPool(Point(29, 12, 3),6,4,2)
-pPool = PearPool(Point(28 ,11, 41),3,16)
+pPool = PearPool(Point(28 ,11, 41),3,15)
 Literal=Literals()

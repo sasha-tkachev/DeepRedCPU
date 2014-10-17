@@ -1,11 +1,11 @@
-import cpu_common
+import common
 class CartPivot:
 	def __init__(self,ID,spawnPosition):
 		if not isinstance(ID,str):
 			raise Exception("ID must be string")
-		if not isinstance(spawnPosition,cpu_common.Point):
+		if not isinstance(spawnPosition,common.Point):
 			if isinstance(spawnPosition,str):
-				spawnPosition= cpu_common.Point(spawnPosition)
+				spawnPosition= common.Point(spawnPosition)
 			else:
 				raise Exception("spawnPosition must be or a string inform of a point or a point ")
 		self.ID=ID
@@ -17,13 +17,17 @@ class CartPivot:
 	def kill(self):
 		return "/kill @e[name="+str(self.ID)+"]"
 	def signal(self,block="redstone_block"):
-		return self.Signal(block)
+		return self.execute("/setblock ~ ~ ~ "+block)
+	def Signal(self,block="redstone_block"):
+		return self.signal(block)
 	def execute(self,cmd):
 		return "/execute {0} ~ ~ ~ {1}".format(self.selector,cmd)
+	def Execute(self,cmd):
+		return slef.execute(cmd)
 	def clone(self,area,dest):
-		if isinstance(dest,cpu_common.Pear):
+		if isinstance(dest,common.Pear):
 			dest=dest.dest
-		if isinstance(area,cpu_common.Pear):
+		if isinstance(area,common.Pear):
 			area=area.getOrigin()
 		return self.execute("/clone {} {}").format(str(area),str(dest))
 	def tp(self,direction):
@@ -39,7 +43,7 @@ class CartPivot:
 class pRefrence(CartPivot):
 	def __init__(self,ID,spawnPosition):
 		CartPivot.__init__(self,ID,spawnPosition)
-		pass
+		
 	def origin(self, pear):
 		return self.tp(pear.dest)
 	def set(self,pear):

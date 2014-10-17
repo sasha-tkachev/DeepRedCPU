@@ -1,6 +1,6 @@
 '''
 
-from cpu_common import *
+from common import *
 
 Screen_chars=list()
 for x in xrange(0,94):

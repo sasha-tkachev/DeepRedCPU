@@ -1,4 +1,4 @@
-from cpu_common import *
+from common import *
 from cpu_ref import *
 class INCREASER(Component):
 	def __init__(self,enter,iValue,oResult,_pro,resRef):
@@ -9,9 +9,9 @@ class INCREASER(Component):
 		self.resRef=resRef
 	def action(self,index):
 		if index < 4 :
-			return self.resRef.movZ(2**index)
+			return self.resRef.moveZ(2**index)
 		index-=4
-		return self.resRef.movY(2**index)
+		return self.resRef.moveY(2**index)
 
 class ADDER(Component):
 	class Summer:
@@ -20,9 +20,9 @@ class ADDER(Component):
 			self.cOut=cOut
 			self.proPear=proPear
 		def addOne(self):
-			return self.pivot.MoveZ(-1)
+			return self.pivot.moveZ(-1)
 		def subOne(self):
-			return self.pivot.MoveZ(1)
+			return self.pivot.moveZ(1)
 		def shut(self):
 			return self.pivot.kill()
 		def start(self):
@@ -32,7 +32,7 @@ class ADDER(Component):
 			return self.cOut.addOne()
 		def sum(self):
 			return self.proPear.setTrue()
-		def call(self):
+		def __call__(self):
 			return self.pivot.signal()
 		def __str__(self):
 			return "cart:{} cOut:{} pear:{}".format(self.pivot.ID,self.cOut,self.proPear)

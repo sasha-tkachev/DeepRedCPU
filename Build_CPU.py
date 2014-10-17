@@ -6,7 +6,7 @@ from pymclevel 			import TAG_Compound
 from pymclevel 			import TAG_Short
 from pymclevel 			import TAG_Double
 from pymclevel 			import TAG_String
-from cpu_common 		import *
+from common 			import *
 from cpu_cmp_logic		import *
 from cpu_cmp_calc		import *
 from cpu_cmp_ram 		import Ram
