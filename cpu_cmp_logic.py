@@ -19,12 +19,12 @@ class XORER(Component2):
 		p2=self._proc.bit(i)
 		print("the size of p2 is "+str(p2.size))
 		return p1.mv(p2)
-	def inputReset():
+	def inputReset(self):
 		return "/fill {} {} {}".format(
 			str(self._proa.dest),
 			str(self._prob.getEndOfOrigin()),
 			Pear.resetBlock)
-	def bankReset():
+	def bankReset(self):
 		return "/fill {} {} {}".format(
 			str(self.bank.dest),
 			str(self._proc.getEndOfOrigin()),

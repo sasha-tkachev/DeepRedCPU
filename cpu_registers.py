@@ -13,7 +13,7 @@ class _FlagRegister():
 		self.zero=self.holder.bit(2)
 		self.sign=self.holder.bit(3)
 		self.overflow=self.holder.bit(4)
-	def alureset():
+	def aluReset(self):
 		return "/say resetting flags"
 flags =_FlagRegister(pPool.alloc())
 ipRegister = pPool.alloc()
