@@ -63,7 +63,7 @@ Xorer=XORER(
 	pPool.alloc(),pPool.alloc(),pPool.alloc(),#interfaces
 	Pear("37 15 22",8),Pear("37 15 23",8),Pear("37 15 24",8),#internalSlots
 	Pear("37 14 24",8),#bank
-	Pear("35 12 13")#result sub
+	f(4,7)#result sub
 	)
 
 Negator = NEGATOR(

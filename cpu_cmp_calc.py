@@ -1,12 +1,14 @@
 from common import *
 from cpu_ref import *
+from cpu_opcodes import *
 class INCREASER(LinkedComponent):
-	def __init__(self,enter,iValue,oResult,_pro,resRef):
-		LinkedComponent.__init__(self,portPool.alloc(enter));
+	def __init__(self,enter,iValue,oResult,_pro,resRef,final):
+		LinkedComponent.__init__(self,enter);
 		self.iValue=iValue
 		self.oResult=oResult
 		self._pro=_pro
 		self.resRef=resRef
+		self.final=final
 	def action(self,index):
 		if index < 4 :
 			return self.resRef.moveZ(2**index)
@@ -106,6 +108,7 @@ Increaser=INCREASER(
 			"INCREASER_PIVOT",
 			Point("37 11 27"),
 			),
+			f(5,2)
 		)
 Decreaser=INCREASER(
 		Pear("37 14 22"),
@@ -116,6 +119,7 @@ Decreaser=INCREASER(
 			"DECREASER_PIVOT",
 			Point("37 11 25")
 			),
+		f(5,3)
 		)
 ShifterLeft=SHIFTER(
 		Pear("37 15 20"),

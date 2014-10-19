@@ -2,7 +2,10 @@ from cpu_ref import *
 
 def Clone(peara,pearb):
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
-		return "/clone "+str(peara.getOrigin())+" "+str(pearb);
+		if peara.size>1:
+			return "/clone {} {}".format(str(peara.getOrigin()),str(pearb.dest));
+		elif peara.size==1:
+			return "/clone {0} {0} {1}".format(str(peara.dest),str(pearb.dest))
 	elif isinstance(peara,Pear) and isinstance(pearb,pRefrence):
 		return pearb.set(peara)
 	elif isinstance(peara,pRefrence) and isinstance(pearb,Pear):
@@ -130,8 +133,16 @@ class Pear:
 	def __call__(self,indirectTake=None):
 		if self.size>1:
 			raise Exception("you cannot call a pear that the size of it is bigger then 1")
-		
 		if indirectTake:
+			try:
+				indirectTake = {
+					'south': '~ ~ ~1' , \
+					'north': '~ ~ ~-1', \
+					'east':	 '~1 ~ ~' , \
+					'west':  '~-1 ~ ~', \
+					'bottom':'~ ~-1 ~', \
+					'up':    '~ ~1 ~' , \
+					}[indirectTake]
 			return "/clone {0} {0} {1} replace move ".format(str(indirectTake),str(self.dest))
 		return self.setTrue()
 	def __str__(self):
@@ -173,7 +184,7 @@ class Component:
 		if exit ==None:
 			print("WARNING no callback for call")
 			return toRet +"/say subrutine is done }}"
-		return toRet+"/setblock "+str(exit)+" redstone_block}}"
+		return toRet+exit()+"}}"
 class LinkedComponent(Component):
 	def __init__(self,invokeEnter):
 		invokeEnter=portPool.alloc(invokeEnter)
@@ -265,7 +276,10 @@ class PortPool():
 		return toRet
 	def slot(self,i,j,k):
 		try:
-			return self.slots[PortPool.indexForm.format(i,j,k)]()
+			st=PortPool.indexForm.format(i,j,k)
+			bind=self.slots[st]()
+			print("the bind of the slot {} is {}".format(st,bind))
+			return bind
 		except KeyError:
 			return "/say unallocated port"
 	

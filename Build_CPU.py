@@ -14,11 +14,12 @@ from cpu_cmp_cdu 		import Cdu
 from cpu_ref 			import *
 from cpu_registers 		import *
 import cpu_opcodes
-
+from misc import chatHub
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
 def perform(level, box, options):
 	locals().update(cpu_opcodes.opcodes)
+	locals().update(generalPurpase)
 	for (chunk, slices, point) in level.getChunkSlices(box):
 		for t in chunk.TileEntities:
 			_x = t["x"].value
