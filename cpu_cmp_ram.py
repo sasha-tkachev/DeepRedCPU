@@ -1,15 +1,15 @@
 from common import *
 
 from cpu_ref import *
-class RAM_READ(Component):
+class RAM_READ(LinkedComponent):
 	def __init__(self,peara,iAdress,oResult,pivot):
-		Component.__init__(self,peara)
+		LinkedComponent.__init__(self,peara)
 		self.iAdress=iAdress
 		self.oResult=oResult
 		self.pivot=pivot
-class RAM_WRITE(Component):
+class RAM_WRITE(LinkedComponent):
 	def __init__(self,peara,iAdress,iValue,pivot):
-		Component.__init__(self,peara)
+		LinkedComponent.__init__(self,peara)
 		self.iAdress=iAdress
 		self.iValue=iValue
 		self.pivot=pivot

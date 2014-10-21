@@ -28,6 +28,7 @@ opcodes=data["opcodes"]
 #list made for outer use 
 
 flag =True
+misc.chatHub.breakRow()
 for codeName,frames in opcodes.items():
 	pList=[]
 	print(codeName+" = ")
@@ -53,6 +54,7 @@ for codeName,frames in opcodes.items():
 	
 	op=Opcode(pList)
 	opcodes[codeName]=op
-	misc.chatHub.makeLink('['+codeName+']',op())
+	misc.chatHub.makeLink('['+codeName+']',op("/say opcode execution complete."))
+misc.chatHub.breakRow()
 def f(row,i):
 	return Pear(Point(rows[row][0]+i,rows[row][1],rows[row][2]))

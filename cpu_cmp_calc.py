@@ -1,6 +1,7 @@
 from common import *
 from cpu_ref import *
 from cpu_opcodes import *
+print("what")
 class INCREASER(LinkedComponent):
 	def __init__(self,enter,iValue,oResult,_pro,resRef,final):
 		LinkedComponent.__init__(self,enter);
@@ -30,7 +31,7 @@ class ADDER(LinkedComponent):
 		def start(self):
 			return self.pivot.spawn()
 		def carry(self):
-			print str(self.cOut)
+			print(str(self.cOut))
 			return self.cOut.addOne()
 		def sum(self):
 			return self.proPear.setTrue()
@@ -55,6 +56,11 @@ class ADDER(LinkedComponent):
 		self.stage2=stage2
 		self.stage4=stage4
 		self.caller=caller
+		
+		def foo():
+			a=self.caller
+			return "/summon MinecartRideable "+str(a.spawnPosition)+" {CustomName:\""+str(a.ID)+"\",NoGravity:1}"
+		self.caller.spawn=foo
 	def createSummers(self,l,i,carry):
 		if i <0:
 			return l
@@ -86,7 +92,7 @@ class SHIFTER(LinkedComponent):
 			return self.oResult.bit((i-1)%8).setTrue()	
 
 Adder=ADDER(
-		Pear(Point("37 14 9")),#invoke enter
+		Pear(Point("37 13 7")),#invoke enter
 		pPool.alloc(),#inumba
 		pPool.alloc(),#inumberb
 		Pear("1 11 8",8),#oResultt

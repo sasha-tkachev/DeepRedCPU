@@ -2,11 +2,24 @@ from common import *
 from cpu_opcodes import *
 from cpu_ref import *
 
-class NEGATOR(Opcode):
-	def __init__(self,iValue,oResult,a1,a2,a3):
-		Opcode.__init__(self,[a1,a2,a3])
+class NEGATOR(LinkedComponent):
+	def __init__(self,iValue,oResult,*args):
+		LinkedComponent.__init__(self,args[0])
 		self.iValue=iValue
 		self.oResult=oResult
+		self.frames=args
+	def __getitem__(self,i):
+		return self.frames[i]
+	def ret(self,take='bottom'):
+		take = {
+			'south': '~ ~ ~1' , \
+			'north': '~ ~ ~-1', \
+			'east':	 '~1 ~ ~' , \
+			'west':  '~-1 ~ ~', \
+			'bottom':'~ ~-1 ~', \
+			'up':    '~ ~1 ~' , \
+			}[take]
+		return self.subReturn(take)
 class XORER(Component2):
 	def __init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc,bank,resultSub):
 		Component2.__init__(self,peara,iNumberA,iNumberB,oResult,_proa,_prob,_proc)
@@ -71,5 +84,5 @@ Negator = NEGATOR(
 	pPool.alloc(),
 	f(0,6),
 	f(0,7),
-	f(4,0)
+	f(3,0)
 	)

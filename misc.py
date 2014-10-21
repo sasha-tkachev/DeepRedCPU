@@ -4,15 +4,22 @@ class Bunch(object):
     self.__dict__.update(adict)
 #lets you put messages that do stuff
 class ChatHub():
+	maxRow=5
 	def __init__(self,name,start):
-		self.links=[("Say Hello","/say hello world")]
+		self.links=[]
 		self.start=start
 		self.name=name
+		self.rowStreak=0
 	def makeLink(self,name,command):
+		if self.rowStreak > ChatHub.maxRow:
+			self.rowStreak=0
+			name+="\n"
 		self.links.append((name,command))
+	def breakRow(self):
+		self.rowStreak=0
 	def show(self):
 		start=self.start
-		toRet='/tellraw @p { "text":"['+self.name+']\\n","extra":['
+		toRet='/tellraw @p { "text":"==='+self.name+'===]\\n","extra":['
 		i=0
 		for link in self.links:
 			cmd="/setblock {} {} {} redstone_block".format(start.x,start.y,start.z+i)

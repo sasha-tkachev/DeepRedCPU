@@ -1,6 +1,8 @@
 import common
+import math
 class CartPivot:
 	def __init__(self,ID,spawnPosition):
+		print("the the class of the spawnPosition is"+str(spawnPosition.__class__.__name__))
 		if not isinstance(ID,str):
 			raise Exception("ID must be string")
 		if not isinstance(spawnPosition,common.Point):
@@ -50,3 +52,28 @@ class pRefrence(CartPivot):
 		return self.execute("/clone {} {}".format(str(pear.getOrigin()),"~ ~ ~"))
 	def get(self,destPear):
 		return self.execute("/clone ~ ~ ~ ~{} ~ ~ {}".format(destPear.size-1,destPear.dest))
+
+class MatrixPivot(pRefrence):
+	BASE=2
+	def __init__(self,ID,spawnPosition,matrixSize=(16,16),matrixJump=(1,1)):
+		pRefrence.__init__(self,ID,spawnPosition)
+		if len(matrixSize) != len(matrixJump):
+			raise Exception("jump and matrix sizes dont match")
+		self.matrixSize=matrixSize
+		self.jmp=matrixJump
+		#hack
+		self.logs=[]	
+		
+		for dementionSize in matrixSize:
+			lg=math.log(dementionSize,MatrixPivot.BASE)
+			self.logs.append(lg)
+			if not lg.is_integer():
+				raise Exception("matrix size is illigal")
+	def moveByBit(self,bit):
+
+		funtions= (self.moveX,self.moveY,self.moveZ)
+		for demention,log in enumerate(self.logs):
+			print("the demention is {} and the log of that is {}".format(demention,log))
+			if bit < log:
+				return funtions[demention](
+					(MatrixPivot.BASE+self.jmp[demention]-1)**(bit-(demention*log)))

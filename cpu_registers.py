@@ -16,11 +16,12 @@ class _FlagRegister():
 	def aluReset(self):
 		return "/say resetting flags"
 flags =_FlagRegister(pPool.alloc())
-ipRegister = pPool.alloc()
 
+ipRegister = pPool.alloc()
+print("flag register {} ip register is {}".format(str(flags.holder),str(ipRegister)))
 stackRegister = pPool.alloc()
 adressRegister = pPool.alloc()
-
+print("stackRegister is {} and adressRegister is {}".format(str(stackRegister),str(adressRegister)))
 
 regRef1=pRefrence("REG_REF_1","1 11 -8")
 regRef=regRef1

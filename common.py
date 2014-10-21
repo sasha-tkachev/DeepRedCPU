@@ -1,11 +1,28 @@
 from cpu_ref import *
 
-def Clone(peara,pearb):
+
+def Clone(peara,pearb,way="replace"):
+	wayDict={"replace":True,"replace move":True}
+	
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
+		toRet=""
 		if peara.size>1:
-			return "/clone {} {}".format(str(peara.getOrigin()),str(pearb.dest));
+			toRet+= "/clone {} {}".format(str(peara.getOrigin()),str(pearb.dest));
 		elif peara.size==1:
-			return "/clone {0} {0} {1}".format(str(peara.dest),str(pearb.dest))
+			toRet+= "/clone {0} {0} {1}".format(str(peara.dest),str(pearb.dest));
+		try:
+			if not wayDict[way]:
+				msg='clone "{}" way is currently inactive. the active ways are: '.format(way)
+				for wayName,isActive in wayDict.items():
+					if isActive:
+						msg+=', '+wayName
+				raise Exception(msg)
+		except KeyError:
+			msg = 'clone way "{}" is invalid please. the ways are: '
+			for name, isActive in wayDict.items():
+				msg+=', '+name
+			raise Exception(msg)
+		return toRet +' '+ way
 	elif isinstance(peara,Pear) and isinstance(pearb,pRefrence):
 		return pearb.set(peara)
 	elif isinstance(peara,pRefrence) and isinstance(pearb,Pear):
@@ -81,7 +98,7 @@ class Pear:
 		if self.size == 1:
 			cmd="setblock"
 		return "/{} {} {}".format(cmd,str(self.getOrigin()),blocks)
-	def clone(self,pear):
+	def clone(self,pear,way="replace"):
 		return Clone(self,pear)
 	def setTrue(self):
 		return self.fill("redstone_block")
@@ -143,6 +160,8 @@ class Pear:
 					'bottom':'~ ~-1 ~', \
 					'up':    '~ ~1 ~' , \
 					}[indirectTake]
+			except:
+				pass
 			return "/clone {0} {0} {1} replace move ".format(str(indirectTake),str(self.dest))
 		return self.setTrue()
 	def __str__(self):
@@ -180,10 +199,13 @@ class Component:
 		self.invokeEnter=invokeEnter
 		self.subReturn=Pear(Point(invokeEnter.dest.x,invokeEnter.dest.y,invokeEnter.dest.z-1))
 	def __call__(self,exit=None):
+
 		toRet="/setblock "+str(self.invokeEnter)+" command_block 0 replace {Command:/setblock ~ ~-1 ~-1 command_block 0 replace {Command:"
 		if exit ==None:
 			print("WARNING no callback for call")
 			return toRet +"/say subrutine is done }}"
+		if isinstance(exit,str):
+			return toRet+exit+" }}"
 		return toRet+exit()+"}}"
 class LinkedComponent(Component):
 	def __init__(self,invokeEnter):
@@ -284,5 +306,5 @@ class PortPool():
 			return "/say unallocated port"
 	
 portPool=PortPool(Point(29, 12, 3),6,4,2)
-pPool = PearPool(Point(28 ,11, 41),3,15)
+pPool = PearPool(Point(28 ,11, 41),4,15)
 Literal=Literals()
