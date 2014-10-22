@@ -17,18 +17,7 @@ import cpu_opcodes
 from misc import chatHub
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
-reload(common)
-'''
-reload(cpu_cmp_keyboard)
-reload(cpu_cmp_logic)
-reload(cpu_cmp_ram)
-reload(cpu_cmp_screen)
-reload(cpu_main)
-reload(cpu_ref)
-reload(cpu_registers)
-reload(cpu_regold)
-reload(hd)
-reload(misc)	''' 
+p=Cdu.interpreter
 
 def perform(level, box, options):
 	

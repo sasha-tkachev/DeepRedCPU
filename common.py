@@ -3,13 +3,13 @@ from cpu_ref import *
 
 def Clone(peara,pearb,way="replace"):
 	wayDict={"replace":True,"replace move":True}
-	
-	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and pearb.size == peara.size :
+	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and (pearb.size == peara.size ):
 		toRet=""
 		if peara.size>1:
-			toRet+= "/clone {} {}".format(str(peara.getOrigin()),str(pearb.dest));
+			print("we got here.")
+			toRet+= "/clone {} {}".format(str(peara.getOrigin()),str(pearb.dest))
 		elif peara.size==1:
-			toRet+= "/clone {0} {0} {1}".format(str(peara.dest),str(pearb.dest));
+			toRet+= "/clone {0} {0} {1}".format(str(peara.dest),str(pearb.dest))
 		try:
 			if not wayDict[way]:
 				msg='clone "{}" way is currently inactive. the active ways are: '.format(way)
@@ -27,7 +27,7 @@ def Clone(peara,pearb,way="replace"):
 		return pearb.set(peara)
 	elif isinstance(peara,pRefrence) and isinstance(pearb,Pear):
 		return peara.set(pearb)
-	raise Exception("the 2 arguments must be pears with a same size")
+	raise Exception("the 2 arguments must be pears with a same size, the size of the two of the pears are {} {} and the classes are {} {}".format(peara.size,pearb.size,peara.__class__.__name__,pearb.__class__.__name__))
 def Fill(peara,content):
 	return "/fill {0} {1}".format(peara.getOrigin(),content)
 def msg(string):
@@ -69,7 +69,19 @@ class Point:
 			)
 	def __str__(self):
 		return str(self.x)+" "+str(self.y)+" "+str(self.z)
-
+	def __getitem__(self,i):
+		if i==0:
+			return self.x
+		if i==1:
+			return self.y
+		return self.z
+	def __setitem__(self,i,value):
+		if i==0:
+			 self.x=value
+		elif i==1:
+			self.y = value
+		else:
+			self.z =value
 class Area:
 	def __init__(self,p1,p2):
 		'''if isinstance(p1,str):

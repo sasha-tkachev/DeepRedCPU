@@ -3,12 +3,13 @@ from cpu_ref import *
 import cpu_cmp_calc
 from cpu_opcodes import f
 import misc
-print("SUP")
+import cpu_registers
+
 class CDU(Unit):
-	def __init__(self,increaser,fetcher):
+	def __init__(self,increaser,fetcher,interpreter):
 		self.increaser=increaser
 		self.fetcher=fetcher
-		
+		self.interpreter=interpreter
 		misc.chatHub.breakRow()
 		misc.chatHub.makeLink("--Fetch Next--",self.fetcher("/say One Fetch Cycle is Done."))
 		misc.chatHub.breakRow()
@@ -23,7 +24,9 @@ class CDU(Unit):
 	def arg(self,order,size):
 		return self.getCmdArg(order,size)
 	def importNext(self):
-		return self.increaser.pivot.get(self.fetcher.register)
+		return self.increaser.pivot.get(cpu_registers.ipRegister)
+	def reset(self):
+		return self.fetcher.register.setFalse()
 	class Increaser:
 		def __init__(self,iAdress,pivot):
 			self.pivot=pivot
@@ -35,8 +38,31 @@ class CDU(Unit):
 			self.nodes=args
 		def __getitem__(self,i):
 			return self.nodes[i]
-
+	class Interpreter:
+		def __init__(self,pivot,args):
+			self.pivot=pivot
+			self.actions=args
+		def action(self,i,toMove):
+			if toMove:
+				return self.pivot.moveX(i+1)
+			if i == 0 :
+				return self.pivot.signal()
+			return self.pivot.execute("/fill ~ ~ ~ ~-{} ~ ~ redstone_block".format(i))
+		def interprate(self,numOfBits):
+			return self.actions[numOfBits]()
+		def __getitem__(self,i):
+			return self.actions[i-1]
+		def reset(self):
+			p = self.pivot.spawnPosition
+			new = Point(p.x+1,p.y,p.z)
+			return "/fill {} {}".format(Pear(new,7).getOrigin(),Pear.resetBlock)
+	
 #CDU-command decoding unit
+def s(start, i):
+	p=[]
+	for x in range(i):
+ 		p.append(Pear(Point(start.x+x,start.y,start.z)))
+	return p
 Cdu=CDU(
 	CDU.Increaser(
 		Pear("37 15 18",8),
@@ -46,6 +72,9 @@ Cdu=CDU(
 		Pear("1 11 -5",8),
 		f(5,4),
 		f(5,5)
-		)
+		),
+	CDU.Interpreter(
+		pRefrence("INTERPRETER",Point(1,10,-5)),
+		s(Point(28,17,15),8)
 	)
-
+)

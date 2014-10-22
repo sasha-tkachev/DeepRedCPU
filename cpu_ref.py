@@ -2,7 +2,7 @@ import common
 import math
 class CartPivot:
 	def __init__(self,ID,spawnPosition):
-		print("the the class of the spawnPosition is"+str(spawnPosition.__class__.__name__))
+		
 		if not isinstance(ID,str):
 			raise Exception("ID must be string")
 		if not isinstance(spawnPosition,common.Point):
@@ -71,9 +71,8 @@ class MatrixPivot(pRefrence):
 				raise Exception("matrix size is illigal")
 	def moveByBit(self,bit):
 
-		funtions= (self.moveX,self.moveY,self.moveZ)
+		foo= (self.moveZ,self.moveY,self.moveX)
 		for demention,log in enumerate(self.logs):
-			print("the demention is {} and the log of that is {}".format(demention,log))
-			if bit < log:
-				return funtions[demention](
-					(MatrixPivot.BASE+self.jmp[demention]-1)**(bit-(demention*log)))
+			if bit < log+(log*demention):
+				return foo[demention](
+					int((MatrixPivot.BASE+self.jmp[demention]-1)**(bit-(demention*log))))
