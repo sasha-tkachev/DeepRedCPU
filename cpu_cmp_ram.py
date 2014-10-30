@@ -30,16 +30,17 @@ Ram.Write=RAM_WRITE(
 
 class Tape:
 	def __init__(self,isofile):
-		#self.slots=[[None for _ in range(8)] for _ in range(256)]
-			self.isofile=isofile
-		if not isofile:
-			
-		else:
-			self.slots=json.loads(open(self.image).read(isofile))
+		#
+		self.isofile=isofile
+		self.slots=json.loads(open(self.isofile).read())
 	def __getitem__(self,row):
 		return self.slots[row]
 	def __setitem__(self,row,value):
 		self.slots[row]=value
 	def save():
-		open(options.inputFile).read()
-tape=Tape()
+		with open(self.isofile, 'w',newline='') as outfile:
+			json.dump(self.slots,outfile)
+	def reset():
+		self.slots=[[None for _ in range(8)] for _ in range(256)]
+		self.save()
+tape=Tape("E:/a.json")

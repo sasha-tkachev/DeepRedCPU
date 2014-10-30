@@ -4,7 +4,7 @@ from tkinter.simpledialog import *
 import json
 import ntpath
 from cpu_cmp_ram import tape
-from Build_CPU import perform as build
+
 class Program:
 	def __init__(self,fileName):
 		self.path=fileName
@@ -12,7 +12,7 @@ class Program:
 		self.adict=json.loads(f)
 	def getBaseName(self):
 		return ntpath.basename(self.path)
-	def loadSegment(self,name):
+	def loadSegment(self,name,adress):
 		toLoad=self.adict[name]
 		stype=name[:5]
 		if stype==".code":
@@ -24,6 +24,7 @@ class Program:
 		elif stype==".data":
 			#TODO
 			raise Exception("loaiding data segments is unimplamented yet")
+		tape.save()
 	def getSegmentNames(self):
 		toRet=list()
 		for key,value in self.adict.items():
@@ -49,9 +50,12 @@ class Dialog(Frame):
 		self.variable.set("segment") # default value
 		self.m= OptionMenu(self,self.variable,"None")
 		
-
+		Label(self, text="to adress:").grid(row=2, column=1)
+		self.adress=Entry(self)
+		self.adress.grid(row=2,column=2)
+		
 		self.QUIT = Button(self, text="load", fg="blue",command=self.loadfile)
-		self.QUIT.grid(row=2, column=2)
+		self.QUIT.grid(row=3, column=2)
 
 	def askFile(self):
 		self.data =Program(askopenfilename(parent=root))
@@ -60,14 +64,19 @@ class Dialog(Frame):
 		self.m= OptionMenu(self,self.variable,*segments)
 		self.m.grid(row=1, column=2,sticky=W+E)
 	def loadfile(self):
-		self.data.loadSegment(self.variable.get())
+		adress=self.adress.get()
+		if adress[-1]=='h':
+			adress=int(adress.split("h")[0],16)
+		else:
+			adress=int(adress)
+		print(adress)
+		self.data.loadSegment(self.variable.get(),adress)
 		root.destroy()
 	
 root = Tk("Load Program")
 app = Dialog(master=root)
-
+app.mainloop()
 def perform(level, box, options):
-	app.mainloop()
-	build(level,box,options)
+	
 	pass
 	
