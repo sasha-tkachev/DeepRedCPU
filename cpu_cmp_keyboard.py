@@ -10,23 +10,27 @@ class Keyboard(Unit):
 		self.pivot=pivot
 		self.tmp=tmpPear
 	#player interface selectors
-	def CheckLookWidth(self,i):
+	def checkh(self,i):
+		intervals=[2,5,8,11,13]
+		return self.checkLook(intervals[int(i)],intervals[int(i)+1], False,int(i))
+	def checkw(self,i):
 		intervals=[161, 164, 167, 169,172,175,177 ,-180,-177,-174,-171,-169,-166, -163,-158]
-		return Keyboard_CheckLook(intervals[int(i)],intervals[int(i)+1], True,int(i) )
-	def CheckLook(self,minRot,maxRot, isx, distance):
+		return self.checkLook(intervals[int(i)],intervals[int(i)+1], True,int(i) )
+	def checkLook(self,minRot,maxRot, isx, distance):
 		toret="/execute @p["
 		if isx:
-			toret=toret+"ry="+str(maxRot)+",rym="+str(minRot)
+			toret+="ry="+str(maxRot)+",rym="+str(minRot)
 		else:
-			toret=toret+"rx="+str(maxRot)+",rxm="+str(minRot)
+			toret+="rx="+str(maxRot)+",rxm="+str(minRot)
 		
-		toret=toret+"] ~ ~ ~ /tp @e[name="+Keyboard_pivot+"] ~ ~ ~-"
-
-		toret=toret+str(distance)
-
+		toret=toret+"] ~ ~ ~ /tp @e[name="+self.pivot+"]"
+		
+		if isx:
+			toret+=" ~-"+str(distance)+" ~ ~"
+		else:
+			toret+=" ~ ~-"+str(distance)+" ~"
 		return toret
-	def Key(self,c):
-		
+	def Key(self,c):	
 		return Clone(Literals.Char(c),self.tmp)
 
 keyboard=Keyboard(
@@ -36,4 +40,4 @@ keyboard=Keyboard(
 	CartPivot( "KEYBOARD_PIVOT", Point("-22 15 -46")),
 	Pear("1 11 -54", 8)
 )
- 	
+

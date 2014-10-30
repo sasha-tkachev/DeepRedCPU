@@ -27,3 +27,12 @@ Ram.Write=RAM_WRITE(
 	pPool.safeAlloc(),
 	CartPivot("RAM_WRITE_PIVOT",Point("28 11 25"))
 	)
+
+class Tape:
+	def __init__(self):
+		self.slots=[[None for _ in range(8)] for _ in range(256)]
+	def __getitem__(self,row):
+		return self.slots[row]
+	def __setitem__(self,row,value):
+		self.slots[row]=value
+tape=Tape()

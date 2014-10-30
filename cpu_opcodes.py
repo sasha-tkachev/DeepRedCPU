@@ -25,6 +25,9 @@ class Opcode(Component):
 data =json.loads(open("E:/Games/Minecraft/mcedit/MCEdit-0.1.7.1.win-amd64/filters/data/opcodes.json","r").read())
 rows=data["rows"]
 opcodes=data["opcodes"]
+opcodes["MovAR"]=opcodes["MovMdR"]
+opcodes["MovRA"]=opcodes["MovMdR"]
+
 #list made for outer use 
 
 flag =True

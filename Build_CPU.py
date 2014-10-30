@@ -10,15 +10,17 @@ from common 			import *
 from cpu_cmp_logic		import *
 from cpu_cmp_calc		import *
 from cpu_cmp_ram 		import Ram
+from cpu_cmp_ram 		import tape
 from cpu_cmp_cdu 		import Cdu
 from cpu_ref 			import *
 from cpu_registers 		import *
 import cpu_opcodes
+import program_loader
 from misc import chatHub
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
 p=Cdu.interpreter
-
+program_loader.load("E:\\cs\\proj\\DeepRedAssembler\\bin\\out\\program.json",0)
 def perform(level, box, options):
 	
 	locals().update(cpu_opcodes.opcodes) 
@@ -54,7 +56,11 @@ def perform(level, box, options):
 						if char==alert:
 							flag=True
 							print ("[parsing] "+toeval)
+						
 							a=str(eval(toeval))
+							
+								
+								
 							result+=a
 							print("    >"+a)
 							toeval=""
