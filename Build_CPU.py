@@ -20,11 +20,9 @@ from misc import chatHub
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
 p=Cdu.interpreter
-program_loader.load("E:\\cs\\proj\\DeepRedAssembler\\bin\\out\\program.json",0)
+locals().update(cpu_opcodes.opcodes) 
+locals().update(generalPurpase)
 def perform(level, box, options):
-	
-	locals().update(cpu_opcodes.opcodes) 
-	locals().update(generalPurpase)
 	for (chunk, slices, point) in level.getChunkSlices(box):
 		for t in chunk.TileEntities:
 			_x = t["x"].value

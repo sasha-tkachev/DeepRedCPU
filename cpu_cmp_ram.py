@@ -1,5 +1,5 @@
 from common import *
-
+import json
 from cpu_ref import *
 class RAM_READ(LinkedComponent):
 	def __init__(self,peara,iAdress,oResult,pivot):
@@ -29,10 +29,17 @@ Ram.Write=RAM_WRITE(
 	)
 
 class Tape:
-	def __init__(self):
-		self.slots=[[None for _ in range(8)] for _ in range(256)]
+	def __init__(self,isofile):
+		#self.slots=[[None for _ in range(8)] for _ in range(256)]
+			self.isofile=isofile
+		if not isofile:
+			
+		else:
+			self.slots=json.loads(open(self.image).read(isofile))
 	def __getitem__(self,row):
 		return self.slots[row]
 	def __setitem__(self,row,value):
 		self.slots[row]=value
+	def save():
+		open(options.inputFile).read()
 tape=Tape()

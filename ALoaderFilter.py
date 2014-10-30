@@ -1,51 +1,73 @@
-import tkinter as tk
+from tkinter import *
 from tkinter.filedialog import *
 from tkinter.simpledialog import *
-class SegmentSelector(Dialog):
-
-	def body(self, master):
-
-		Label(master, text="segment:").grid(row=0)
-		self.e1 = Entry(master)
-		self.e1.grid(row=0, column=1)
-		return self.e1 # initial focus
-	def apply(self):
-		self.result = self.e1.get()
-
-class Application(tk.Frame):
+import json
+import ntpath
+from cpu_cmp_ram import tape
+from Build_CPU import perform as build
+class Program:
+	def __init__(self,fileName):
+		self.path=fileName
+		f=open(fileName,'r').read()
+		self.adict=json.loads(f)
+	def getBaseName(self):
+		return ntpath.basename(self.path)
+	def loadSegment(self,name):
+		toLoad=self.adict[name]
+		stype=name[:5]
+		if stype==".code":
+			for i , x in enumerate(toLoad):
+				for block in x:
+					block = block.format(**{name:str(adress)})
+				tape[start+i]=x
+		
+		elif stype==".data":
+			#TODO
+			raise Exception("loaiding data segments is unimplamented yet")
+	def getSegmentNames(self):
+		toRet=list()
+		for key,value in self.adict.items():
+			print(key)
+			toRet.append(key)
+		return toRet
+class Dialog(Frame):
 	def __init__(self, master=None):
-		tk.Frame.__init__(self, master)
-		self.pack()
+		Frame.__init__(self, master)
+		self.grid()
 		self.createWidgets()
 		self.data=""
 		self.segment=""
 	def createWidgets(self):
+		Label(self, text="load from file:").grid(row=0, column=1)
+		self.opbutton = Button(self)
+		self.opbutton["text"]      = "open..."
+		self.opbutton["command"] = self.askFile
+		self.opbutton.grid(row=0, column=2,sticky=W+E)
+		
+		Label(self, text="segment:").grid(row=1, column=1)
+		self.variable = StringVar(root)
+		self.variable.set("segment") # default value
+		self.m= OptionMenu(self,self.variable,"None")
+		
 
-		self.hi_there = tk.Button(self)
-		self.hi_there["text"]      = "select a file"
-		self.hi_there["command"] = self.askFile
-		self.selectSegment = tk.Button(self)
-		self.selectSegment["text"] = "select a segment"
-		self.selectSegment["command"] = self.askSegment
-		self.hi_there.pack(side="top")
-		self.selectSegment.pack(side="top")
-		self.QUIT = tk.Button(self, text="load", fg="blue",
-											command=self.loadfile)
-		self.QUIT.pack(side="bottom")
+		self.QUIT = Button(self, text="load", fg="blue",command=self.loadfile)
+		self.QUIT.grid(row=2, column=2)
 
 	def askFile(self):
-		self.data = askopenfilename(parent=root)
-
+		self.data =Program(askopenfilename(parent=root))
+		self.opbutton["text"]=self.data.getBaseName()
+		segments=self.data.getSegmentNames()
+		self.m= OptionMenu(self,self.variable,*segments)
+		self.m.grid(row=1, column=2,sticky=W+E)
 	def loadfile(self):
-		print("loading segment {seg} from file{data}".format(seg=self.segment,data=self.data))
+		self.data.loadSegment(self.variable.get())
 		root.destroy()
-	def askSegment(self):
-		s= SegmentSelector(root)
-		self.segment=s.result
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
+	
+root = Tk("Load Program")
+app = Dialog(master=root)
 
 def perform(level, box, options):
+	app.mainloop()
+	build(level,box,options)
 	pass
 	
