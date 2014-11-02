@@ -5,20 +5,35 @@ import json
 import ntpath
 from cpu_cmp_ram import tape
 
-class Program:
+class ImageFile:
 	def __init__(self,fileName):
+		self.path=fileName
+		self.slots=json.loads(open(self.path).read())
+		print(len(self.slots))
+	def save():
+		with open(self.path, 'w',newline='') as outfile:
+				json.dump(self.slots,outfile)
+class Program:
+	def __init__(self,fileNamew):
 		self.path=fileName
 		f=open(fileName,'r').read()
 		self.adict=json.loads(f)
 	def getBaseName(self):
 		return ntpath.basename(self.path)
 	def loadSegment(self,name,adress):
+		print("choose"+name)
 		toLoad=self.adict[name]
 		stype=name[:5]
+		toformat=name.split('.')[1]
 		if stype==".code":
-			for i , x in enumerate(toLoad):
-				for block in x:
-					block = block.format(**{name:str(adress)})
+			for i , row in enumerate(toLoad):
+				for block in row:
+					if isinstance(block, str):
+						try:
+							block = block.format(**{toformat:adress})
+						except KeyError:
+							continue
+				
 				tape[start+i]=x
 		
 		elif stype==".data":
@@ -72,11 +87,7 @@ class Dialog(Frame):
 		print(adress)
 		self.data.loadSegment(self.variable.get(),adress)
 		root.destroy()
-	
+tape=ImageFile("E:/a.json")	
 root = Tk("Load Program")
 app = Dialog(master=root)
 app.mainloop()
-def perform(level, box, options):
-	
-	pass
-	

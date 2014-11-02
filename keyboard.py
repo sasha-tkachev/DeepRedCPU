@@ -36,8 +36,8 @@ class Keyboard(Unit):
 keyboard=Keyboard(
 	"leaves",
 	["-15 13 -21", "-16 13 -21"],
-	"-17 11 -53",
-	CartPivot( "KEYBOARD_PIVOT", Point("-22 15 -46")),
-	Pear("1 11 -54", 8)
+	"-76 7 -57",
+	CartPivot( "KEYBOARD_PIVOT", Point("-77 9 -52")),
+	Pear("-76 9 -58", 8)
 )
 

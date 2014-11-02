@@ -14,6 +14,7 @@ from cpu_cmp_ram 		import tape
 from cpu_cmp_cdu 		import Cdu
 from cpu_ref 			import *
 from cpu_registers 		import *
+from keyboard 			import keyboard
 import cpu_opcodes
 import program_loader
 from misc import chatHub
