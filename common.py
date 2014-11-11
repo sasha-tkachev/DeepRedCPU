@@ -130,6 +130,8 @@ class Pear:
 		if isinstance(dest, Pear):
 			return dest.clone(self)
 		#check if dest is actually a literal
+		if isinstance(dest, str) and len(dest)>1:
+			return "/setblock {} {}".format(str(self.dest),dest)
 		else:
 			return Literal(dest).clone(self)
 	def getOrigin(self):
@@ -189,8 +191,8 @@ class Literals:
 		selected=Pear(Point(37,start.y+row,start.z+column),8)
 		return selected
 	def char(self,c):
-		if(isinstance(c,chr)):
-			return Byte(ord(c))
+		if(isinstance(c,str)):
+			return self.byte(ord(c))
 		else :
 			raise Exception(" c have to be a char")
 	def OprandByte(self,cdu,n,order):

@@ -23,6 +23,7 @@ print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCo
 p=Cdu.interpreter
 locals().update(cpu_opcodes.opcodes) 
 locals().update(generalPurpase)
+
 def perform(level, box, options):
 	for (chunk, slices, point) in level.getChunkSlices(box):
 		for t in chunk.TileEntities:

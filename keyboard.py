@@ -1,14 +1,18 @@
 from common import *
-
+import json
 from cpu_ref import *
 class Keyboard(Unit):
 	#constructor
-	def __init__(self,clickBlock,clickArea,onClick,pivot,tmpPear):
-		self.clickBlock=clickBlock
-		self.clickArea=clickArea
-		self.userClick=onClick
-		self.pivot=pivot
-		self.tmp=tmpPear
+	def __init__(self,**args):
+		self.window=args["window"]
+		self.keymap=args["keymap"]
+		self.onClick=args["onClick"]
+		self.tmp=args["tempPear"]
+		self.callListners=args["callListners"]
+		self.pivot=args["pivot"]
+		self.startlock=args["startlock"]
+		self.stoplock=args["stoplock"]
+		self.spec=args["spec"]
 	#player interface selectors
 	def checkh(self,i):
 		intervals=[2,5,8,11,13]
@@ -19,25 +23,34 @@ class Keyboard(Unit):
 	def checkLook(self,minRot,maxRot, isx, distance):
 		toret="/execute @p["
 		if isx:
-			toret+="ry="+str(maxRot)+",rym="+str(minRot)
+			toret+="rym="+str(minRot)+",ry="+str(maxRot)
 		else:
-			toret+="rx="+str(maxRot)+",rxm="+str(minRot)
+			toret+="rxm="+str(minRot)+",rx="+str(maxRot)
 		
-		toret=toret+"] ~ ~ ~ /tp @e[name="+self.pivot+"]"
+		toret+="] ~ ~ ~ /tp @e[name="+self.pivot.ID+"]"
 		
 		if isx:
-			toret+=" ~-"+str(distance)+" ~ ~"
+			toret+=" ~"+str(distance)+" ~ ~"
 		else:
-			toret+=" ~ ~-"+str(distance)+" ~"
+			toret+=" ~ ~-"+str(distance+1)+" ~"
 		return toret
-	def Key(self,c):	
-		return Clone(Literals.Char(c),self.tmp)
+	def key(self,c):	
+		return Literal.char(str(c)).clone(self.tmp)
+	def openWindow(self):
+		return "/fill "+self.window[0]+" "+self.window[1]+" barrier"
+	def closeWindow(self):
+		return "/fill "+self.window[0]+" "+self.window[1]+" quartz_block"
 
+_map=json.loads(open('E:/Games/Minecraft/mcedit/MCEdit-0.1.7.1.win-amd64/filters/data/keymap.json').read())
 keyboard=Keyboard(
-	"leaves",
-	["-15 13 -21", "-16 13 -21"],
-	"-76 7 -57",
-	CartPivot( "KEYBOARD_PIVOT", Point("-77 9 -52")),
-	Pear("-76 9 -58", 8)
+	keymap=_map,
+	onClick=Pear("-76 7 -57"),
+	pivot=CartPivot( "KEYBOARD_PIVOT", Point("-77 10 -52")),
+	tempPear=Pear("-76 9 -58", 8),
+	callListners=Pear("-68 7 -57"),
+	window=["-71 12 -24","-70 12 -24"],
+	startlock=Pear("-73 7 -23"),
+	stoplock=Pear("-73 7 -22"),
+	spec="-70.0000001 11.38 -22",
 )
 
