@@ -40,7 +40,9 @@ class Keyboard(Unit):
 		return "/fill "+self.window[0]+" "+self.window[1]+" barrier"
 	def closeWindow(self):
 		return "/fill "+self.window[0]+" "+self.window[1]+" quartz_block"
-
+	def plant(self,s):
+		r = self.callListners.dest + (0,-1,0)
+		return "/setblock "+str(r)+"command_block 0 replace {Command:"+s+"}"
 _map=json.loads(open('E:/Games/Minecraft/mcedit/MCEdit-0.1.7.1.win-amd64/filters/data/keymap.json').read())
 keyboard=Keyboard(
 	keymap=_map,

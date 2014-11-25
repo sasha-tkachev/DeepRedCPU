@@ -1,6 +1,6 @@
 from cpu_ref import *
 
-
+import math
 def Clone(peara,pearb,way="replace"):
 	wayDict={"replace":True,"replace move":True}
 	if 	isinstance(peara,Pear) and isinstance(pearb,Pear) and (pearb.size == peara.size ):
@@ -82,6 +82,8 @@ class Point:
 			self.y = value
 		else:
 			self.z =value
+	def __add__(self,other):
+		return Point(self.x+other[0],self.y+other[1],self.z+other[2])
 class Area:
 	def __init__(self,p1,p2):
 		'''if isinstance(p1,str):
@@ -187,7 +189,7 @@ class Literals:
 		n=int(n)
 		start = Point("37 11 26")
 		column=int(n%8)
-		row=int(n/8)
+		row=int(math.log(n,8))
 		selected=Pear(Point(37,start.y+row,start.z+column),8)
 		return selected
 	def char(self,c):

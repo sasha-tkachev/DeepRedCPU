@@ -29,8 +29,9 @@ Ram.Write=RAM_WRITE(
 	)
 
 class Tape:
-	def __init__(self,isofile):
+	def __init__(self,isofile,**args):
 		#
+		self.corner=args["corner"]
 		self.isofile=isofile
 		self.slots=json.loads(open(self.isofile).read())
 	def __getitem__(self,row):
@@ -43,4 +44,6 @@ class Tape:
 	def reset():
 		self.slots=[[None for _ in range(8)] for _ in range(256)]
 		self.save()
-tape=Tape("E:/a.json")
+tape=Tape("E:/cs/proj/DeepRedAssembler/bin/img.json",
+	corner=Point(28,11,25)
+	)

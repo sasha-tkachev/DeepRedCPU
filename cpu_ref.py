@@ -1,6 +1,7 @@
 import common
 import math
 class CartPivot:
+	used=[]
 	def __init__(self,ID,spawnPosition):
 		
 		if not isinstance(ID,str):
@@ -13,7 +14,8 @@ class CartPivot:
 		self.ID=ID
 		self.selector="@e[name={0}]".format(self.ID)
 		self.spawnPosition=spawnPosition
-	
+		
+		CartPivot.used.append(self)
 	def spawn(self):
 		return "/summon ArmorStand "+str(self.spawnPosition)+" {CustomName:\""+str(self.ID)+"\",NoGravity:1}"
 	def kill(self):
