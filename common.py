@@ -321,6 +321,6 @@ class PortPool():
 		except KeyError:
 			return "/say unallocated port"
 	
-portPool=PortPool(Point(29, 12, 3),6,4,2)
+portPool=PortPool(Point(29, 12, 22),3,4,4)
 pPool = PearPool(Point(28 ,11, 41),4,15)
 Literal=Literals()

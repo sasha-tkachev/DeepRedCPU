@@ -75,6 +75,6 @@ Cdu=CDU(
 		),
 	CDU.Interpreter(
 		pRefrence("INTERPRETER",Point(1,10,-5)),
-		s(Point(28,17,15),8)
+		s(f(7,0).dest,8)
 	)
 )
