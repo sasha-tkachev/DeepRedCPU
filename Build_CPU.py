@@ -18,6 +18,7 @@ from keyboard 			import keyboard
 import cpu_opcodes
 import program_loader
 import json
+from screen import screen
 from misc import chatHub
 displayName = "Build CPU"
 print(" {} ports and {} pears allocated ".format(portPool.slotCount,pPool.slotCount))
@@ -57,6 +58,7 @@ def perform(level, box, options):
 				t["Command"] = TAG_String(parseCommand(command))
 				chunk.dirty = True
 def parseCommand(command):
+	#TODO: orgenize this method
 	command=command.replace("/say `","`")		
 	#print("[parsing] "+command)
 	
