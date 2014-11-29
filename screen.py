@@ -14,8 +14,8 @@ class Screen(LinkedComponent):
 	def clearAction(self):
 		return "/fill {} {} {}".format(self.tmpcursor.dest,self.iChar.getEndOfOrigin(),Pear.resetBlock)
 	def char(self,i):
-		a=Point(self.snapStart[0][0],self.snapStart[0][1]-i,self.snapStart[0][2]+1)
-		b=Point(self.snapStart[1][0],self.snapStart[1][1]-i,self.snapStart[1][2]+1)
+		a=Point(self.snapStart[0][0],self.snapStart[0][1]-i+1,self.snapStart[0][2])
+		b=Point(self.snapStart[1][0],self.snapStart[1][1]-i+1,self.snapStart[1][2])
 		return self.cursor.execute("/clone {} {} ~ ~ ~".format(a,b))
 	def action(self,i):
 		CHARSIZE=(6,8)
