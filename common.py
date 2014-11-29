@@ -188,8 +188,8 @@ class Literals:
 		# n is number
 		n=int(n)
 		start = Point("37 11 26")
-		column=int(n%8)
-		row=int(math.log(n,8))
+		column=int(n%16)
+		row=int(n/16)
 		selected=Pear(Point(37,start.y+row,start.z+column),8)
 		return selected
 	def char(self,c):
