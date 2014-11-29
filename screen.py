@@ -22,7 +22,7 @@ class Screen(LinkedComponent):
 		if i <=4:
 			return self.cursor.moveX(CHARSIZE[0]*(2**i))
 		else:
-			return self.cursor.moveZ(CHARSIZE[0]*(2**(i-5)))
+			return self.cursor.moveZ(CHARSIZE[1]*(2**(i-5)))
 	
 	def charselect(self,i):
 		if i<=3:
