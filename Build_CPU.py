@@ -28,6 +28,7 @@ locals().update(cpu_opcodes.opcodes)
 locals().update(generalPurpase)
 
 def perform(level, box, options):
+	loadVars(tape.vars)
 	for i,row in enumerate(tape):
 		if isinstance(row, int):
 			byte='{0:08b}'.format(row)
@@ -36,7 +37,7 @@ def perform(level, box, options):
 				z=int(i%16)
 				y=int(i/16)
 				loc=tape.corner+Point(7-bnum,y,z)
-				print(str(loc))
+				
 				if(bit=='0'):
 					level.setBlockAt(loc.x,loc.y,loc.z, 80)
 				else:
@@ -94,3 +95,15 @@ def parseCommand(command):
 		i=i+1
 
 	return result	
+
+def loadVars(adic):
+	for varname,adress in adic.items():
+		print("adding "+varname)
+		isstring=isinstance(adress,unicode) or isinstance(adress,str)
+		#if isinstance(adress,int) or isstring:
+		if isstring:
+			adress=eval(adress)
+		print("added "+varname)
+		globals().update({str(varname):Pear(tape.corner+(0,adress/16,adress%16),8)})
+		#else:
+		#	raise Exception("non-string adressed vars are un-supported.For the var {name} the adress is {adress}".format(name=varname,adress=adress.__class__))

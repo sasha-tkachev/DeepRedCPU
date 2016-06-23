@@ -29,7 +29,6 @@ flag =True
 misc.chatHub.breakRow()
 for codeName,frames in opcodes.items():
 	pList=[]
-	print(codeName+" = ")
 	for frame in frames:
 		retPear=None
 		if isinstance(frame,list):
@@ -47,7 +46,6 @@ for codeName,frames in opcodes.items():
 				raise Exception("invalid frame syntax expecting ")
 		else:
 			raise Exception("invalid frame syntax")
-		print('  '+str(retPear))
 		pList.append(retPear)
 	
 	op=Opcode(pList)

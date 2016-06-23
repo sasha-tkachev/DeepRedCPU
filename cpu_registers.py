@@ -21,6 +21,7 @@ ipRegister = pPool.alloc()
 print("flag register {} ip register is {}".format(str(flags.holder),str(ipRegister)))
 stackRegister = pPool.alloc()
 adressRegister = pPool.alloc()
+
 print("stackRegister is {} and adressRegister is {}".format(str(stackRegister),str(adressRegister)))
 
 regRef1=pRefrence("REG_REF_1","1 11 -8")
@@ -28,6 +29,7 @@ regRef=regRef1
 regRef2=pRefrence("REG_REF_2","1 11 -10")
 
 generalPurpase={"AL":pPool.alloc(),"AH":pPool.alloc(),"BL":pPool.alloc(),"BH":pPool.alloc(),"CL":pPool.alloc(),"CH":pPool.alloc(),"DL":pPool.alloc(),"DH":pPool.alloc()}
+counterRegister=generalPurpase["DL"]
 gp=generalPurpase
 def makePair(name,ref):
 	mk=misc.chatHub.makeLink

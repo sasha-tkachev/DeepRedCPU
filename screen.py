@@ -10,7 +10,12 @@ class Screen(LinkedComponent):
 		self.iChar=f['iChar']
 		self.charpivot=f['charpivot']
 		self.snapStart=f['snapstart']
-		
+
+		self.powerOn=f['powerOn']
+		self.powerOff=f['powerOff']
+		self.openArea=f['openArea']
+		self.hiddenArea=f['hiddenArea']
+		self.anchor=f['anchor']
 	def clearAction(self):
 		return "/fill {} {} {}".format(self.tmpcursor.dest,self.iChar.getEndOfOrigin(),Pear.resetBlock)
 	def char(self,i):
@@ -33,6 +38,17 @@ class Screen(LinkedComponent):
 		return self.frames[i]
 	def printc(self):
 		return self.charpivot.signal()
+	def spawnFrame(self,x,y,z,char="0"):
+		fx=-77
+		fy=11
+		fz=-42
+		fx+=x
+		fy-=y
+		fz+=z
+		fx=str(fx)
+		fy=str(fy)
+		fz=str(fz)
+		return "/summon ItemFrame "+fx+" "+fy+" "+fz+" {TileX:"+fx+",TileY:"+fy+",TileZ:"+fz+",Facing:0,Item:{id:358,Damage:"+str(ord(char))+",Count:1}}"
 screen=Screen(
 	snapstart=((-199,104,-162),(-194,104,-155)),
 	frames=[
@@ -44,5 +60,11 @@ screen=Screen(
 	tmpcursor=Pear("-202 11 -192",8),
 	iChar=Pear("-202 11 -191",8),
 	charpivot=pRefrence("SCREEN_CHARPIVOT",Point("-194 12 -180")),
-	cursor=pRefrence("CURSOR",Point("-192 11 -192"))
+	cursor=pRefrence("CURSOR",Point("-192 11 -192")),
+	
+	powerOn=Pear("-80 2 -34"),
+	powerOff=Pear("-82 9 -42"),
+	openArea="-227 23 -189 -208 17 -167",
+	hiddenArea="-227 16 -189 -208 11 -167",
+	anchor=Point("-80 10 -47")
 	)

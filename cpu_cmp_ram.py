@@ -33,7 +33,9 @@ class Tape:
 		#
 		self.corner=args["corner"]
 		self.isofile=isofile
-		self.slots=json.loads(open(self.isofile).read())
+		self.raw=json.loads(open(self.isofile).read())
+		self.slots=self.raw['slots']
+		self.vars=self.raw['vars']
 	def __getitem__(self,row):
 		return self.slots[row]
 	def __setitem__(self,row,value):
